@@ -18,6 +18,7 @@
 
 -------------------------------------------------------------------------------------
 
+## RAUS da in Werwolf die eigene Role bekannt ist, Ma also in den Formeln nicht mitbetrachen da die Rolle dem Agent mit als Input gegeben wird
 ### **Identity-Determination** 
 
 ##### Englisch:
@@ -126,6 +127,28 @@
 
 <img src="MPPT_Formeln_Bilder/img_18.png" alt="Monitoring" width="600">
 
+----------------------------------------------------------------------------------
+
+### **Unsere selbst entwickelte neue Formel, um die Dynamik der Spielrunden besser zu modellieren:**
+
+### **X-FindTeammate**
+
+##### Englisch:
+<img src="MPPT_Formeln_Bilder/img_25.png" alt="Monitoring" width="600">
+-
+<img src="MPPT_Formeln_Bilder/img_26.png" alt="Monitoring" width="600">
+
+##### Deutsch:
+
+<img src="MPPT_Formeln_Bilder/img_27.png" alt="Monitoring" width="600">
+-
+<img src="MPPT_Formeln_Bilder/img_28.png" alt="Monitoring" width="600">
+
+### Punkte, wo wir die Formel und die Implementierung noch mehr Anpassen müssen und Vorsichtig sein müssen:
+
+<img src="MPPT_Formeln_Bilder/img_29.png" alt="Monitoring" width="600">
+-
+<img src="MPPT_Formeln_Bilder/img_30.png" alt="Monitoring" width="600">
 ----------------------------------------------------------------------------------
 
 ###  **Game-Decision**
