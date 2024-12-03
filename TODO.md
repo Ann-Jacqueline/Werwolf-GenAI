@@ -11,6 +11,7 @@
   <li><input type="checkbox"> Tokenization</li>
   <li><input type="checkbox"> Struktur von Datenfluss (falls wir GPT-4o benutzen) </li>
   <li><input type="checkbox" checked style="accent-color: blue;"> Abstract und Conclusion des Experiments</li>
+
 </ul>
 
 ### To-Do-Liste: Seli (23.11.2024)
@@ -19,6 +20,14 @@
   <li><input type="checkbox"> Sonderrollen-Beschreibung, die komplex (templates) sind</li>
   <li><input type="checkbox"> Paper highlight</li>
 </ul>
+
+
+
+## 03.12.2024
+LSA MHNN -> Laura-Seli-AJ Multi-Head Neuronales Netz
+Angepasste initial game_states für jeder rolle : special variablen
+prompt templates for the dynamische Prompt vom LSA MHNN
+moderator agent -> makes summaries  to feed to player agents
 
 
 ----------------------------------------------------------------------------------
