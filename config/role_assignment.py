@@ -35,6 +35,6 @@ def assign_roles(players, seed=42):
 
 # Example usage
 if __name__ == "__main__":
-    players = ["Player1", "Player2", "Player3", "Player4", "Player5", "Player6", "Player7", "Player8"]
+    players = ["Player1", "Player2", "Player3", "Player4", "Player5", "Player6", "Player7"]
     assigned_roles = assign_roles(players)
     print("Assigned Roles:", assigned_roles)
