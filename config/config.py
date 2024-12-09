@@ -2,16 +2,20 @@
 
 class GameConfig:
     # Game Settings
-    MIN_PLAYERS = 7  # Minimum number of players
+    MIN_AGENTS = 7  # Minimum number of agents, including moderator
+    MAX_MODERATOR = 1  # Maximum number of moderators (only 1)
+    MIN_MODERATOR = 1  # Minimum number of moderators (only 1)
     MAX_HUMAN_PLAYER = 1  # Always include one human player
-    MIN_DORFBEWOHNER = 2 # Minimum number of Dorfbewohner
-    MAX_SONDERROLLEN = 3# Minimum number of Sonderollen
-    MAX_WEREWOLVES = 4  # Maximum number of werewolves
-    MIN_WEREWOLVES = 2  # Minimum number of werewolves
+    ACTIVE_PLAYERS = 5  # Human + 4 AI players
 
     # Role Allocation
+    MIN_DORFBEWOHNER = 2  # Minimum number of villagers
+    MAX_SONDERROLLEN = 3  # Maximum number of special roles
+    MIN_WEREWOLVES = 2  # Minimum number of werewolves
+    MAX_WEREWOLVES = 4  # Maximum number of werewolves
+
     ROLES = {
-        "villager": {"count": None},  # Dynamically calculated based on remaining slots
+        "villager": {"count": None},  # Calculated based on remaining slots
         "werewolf": {"count": 2},  # Default is 2; dynamically increased to 4 max
         "amor": {"count": 1},
         "hexe": {"count": 1},  # Hexe shares role with Jäger
@@ -20,17 +24,19 @@ class GameConfig:
 
     # Moderator Settings
     MODERATOR_INSTANZ = "moderator"
-    MODERATOR_DESCRIPTION = "Der Moderator sorgt für einen reibungslosen Spielablauf und verwaltet die Spielmechanik."
+    MODERATOR_DESCRIPTION = (
+        "Der Moderator sorgt für einen reibungslosen Spielablauf und verwaltet die Spielmechanik."
+    )
 
-    # Sequence of Night Actions (Hardcoded)
+    # Night Action Sequence (Hardcoded)
     NIGHT_SEQUENCE = [
         "amor",  # Amor acts first
-        "seherin",  # Seherin chooses someone to inspect
-        "werewolf",  # Werewolves wake up to choose a victim
+        "seherin",  # Seherin inspects a player
+        "werewolf",  # Werewolves choose a victim
         "hexe",  # Hexe acts last
     ]
 
-    # Role Descriptions (Base Descriptions for Natural Language Strategies)
+    # Role Descriptions
     ROLE_DESCRIPTIONS = {
         "villager": {
             "description": "Du bist ein Dorfbewohner. Dein Ziel ist es, die Werwölfe zu identifizieren und aus dem Dorf zu vertreiben.",
@@ -48,18 +54,10 @@ class GameConfig:
             "description": "Du bist die Hexe. Du besitzt einen Heiltrank und einen Gifttrank. Setze diese weise ein.",
             "strategy": "Beobachte sorgfältig, wann du den Heiltrank einsetzen solltest, um einen wichtigen Spieler zu retten, oder den Gifttrank, um einen verdächtigen Spieler zu eliminieren. Denke an die begrenzte Nutzung deiner Tränke.",
         },
-        # "jäger": {
-        #     "description": "Du bist der Jäger. Wenn du stirbst, kannst du einen anderen Spieler mitnehmen.",
-        #     "strategy": "Falls du in Gefahr bist, eliminiert zu werden, plane rechtzeitig, welchen Spieler du mitnehmen möchtest. Ziel auf einen Werwolf oder jemanden, der das Dorf verwirrt.",
-        # },
         "seherin": {
             "description": "Du bist die Seherin. Jede Nacht kannst du einen Spieler überprüfen, um seine Rolle herauszufinden.",
             "strategy": "Sammle so viele Informationen wie möglich, ohne dich frühzeitig zu verraten. Lenke die Diskussionen am Tag subtil, um die Abstimmungen zu beeinflussen, ohne ein Ziel zu werden.",
         },
-        # "moderator": {
-        #     "description": "Du bist der Moderator. Deine Aufgabe ist es, das Spiel zu überwachen, die Regeln durchzusetzen und für Fairness zu sorgen.",
-        #     "strategy": "Sorge dafür, dass alle Spieler die Regeln verstehen und dass die Aktionen während der Nacht in der richtigen Reihenfolge ausgeführt werden.",
-        # },
     }
 
     # Random Seed for Reproducibility
@@ -67,6 +65,7 @@ class GameConfig:
 
     # Device Settings
     DEVICE = "cuda"  # Use "cuda" for GPU or "cpu" for CPU
+
 
 # Instantiate global configuration
 game_config = GameConfig()
