@@ -1,5 +1,5 @@
 import random
-from config.config import game_config
+from backend.config.config import game_config
 
 def assign_roles(players, seed=42):
     """

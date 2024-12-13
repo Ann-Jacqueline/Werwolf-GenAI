@@ -1,6 +1,6 @@
 
 ### Formeln sind in diesen Dokumenten nochmal erklärt: 
-#### [Werwolf Abstract v1.pdf](../App%20Ans%C3%A4tze%20und%20Paperversionierung/Werwolf%20Abstract%20v1.pdf)
+#### [Werwolf Abstract v1.pdf](../App%20Ansätze%20und%20Paperversionierung/Werwolf%20Abstract%20v1.pdf)
 #### [Multi agent game tatic.pdf](../../references/Papers_Framworks/Multi%20agent%20game%20tatic.pdf)
 
 

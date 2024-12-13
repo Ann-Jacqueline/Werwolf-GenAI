@@ -1,0 +1,98 @@
+@keyframes sway {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes input-color-shift {
+  0% {
+    background-color: #a7f3d0; /* Hellgrün */
+  }
+  33% {
+    background-color: #bfdbfe; /* Hellblau */
+  }
+  66% {
+    background-color: #fde68a; /* Hellgelb */
+  }
+  100% {
+    background-color: #a7f3d0; /* Zurück zu Hellgrün */
+  }
+}
+
+.input-animated {
+  animation: input-color-shift 6s ease-in-out infinite;
+}
+
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-20px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
+}
+
+.app-container {
+  animation: gradient-shift 10s ease-in-out infinite;
+}
+
+.bubble-container {
+  position: absolute;
+  inset: 0;
+  z-index: -1; /* Stellt sicher, dass es im Hintergrund bleibt */
+  overflow: hidden;
+  pointer-events: none; /* Keine Interaktion mit Bläschen möglich */
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+}
+
+
+/* Farbvarianten */
+.bubble-green {
+  background-color: rgba(0, 128, 0, 0.3); /* Leichtes Grün */
+}
+
+.bubble-beige {
+  background-color: rgba(245, 245, 220, 0.4); /* Beiges */
+}
+
+.bubble-pink {
+  background-color: rgba(255, 182, 193, 0.4); /* Leichtes Rosa */
+}
+
+.bubble-purple {
+  background-color: rgba(221, 160, 221, 0.4); /* Leichtes Lila */
+}
+
+/* Größenvarianten */
+.bubble-small {
+  width: 20px;
+  height: 20px;
+}
+
+.bubble-medium {
+  width: 40px;
+  height: 40px;
+}
+
+.bubble-large {
+  width: 60px;
+  height: 60px;
+}

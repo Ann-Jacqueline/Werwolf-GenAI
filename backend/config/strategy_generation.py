@@ -1,5 +1,5 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from config.config import game_config
+from backend.config.config import game_config
 
 # Load LLaMA model
 tokenizer = AutoTokenizer.from_pretrained(game_config.MODEL_NAME)
