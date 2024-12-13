@@ -1,23 +1,18 @@
-from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
-import torch
+import openai
 
-# Check if CUDA is available
-print("CUDA Available:", torch.cuda.is_available())
+# Set your API key
+openai.api_key = "YOUR_API_KEY_HERE"  # Replace with your actual API key
 
-# Load model through Hugging Face API with constraints
-pipe = pipeline(
-    "text-generation",
-    model="meta-llama/Llama-3.3-70B-Instruct",
-    device_map="auto",  # Automatically use GPU if available
-    torch_dtype=torch.float16,  # Use half-precision for reduced memory
-    use_auth_token=True
+# Define the model name
+model_name = "gpt-4o"
+
+# Create a test request
+response = openai.ChatCompletion.create(
+    model=model_name,
+    messages=[{"role": "user", "content": "Who are you?"}],
+    max_tokens=50,
+    temperature=0.7
 )
 
-# Limit CPU threads if needed
-torch.set_num_threads(4)
-
-# Send a test request
-response = pipe("Who are you?", max_length=50, num_return_sequences=1)
-
 # Print the response
-print("API Call Test Output:", response)
+print("API Call Test Output:", response.choices[0].message.content.strip())
