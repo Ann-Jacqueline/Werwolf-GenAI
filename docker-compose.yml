@@ -1,0 +1,17 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: WerwolfIQ
+    environment:
+      MYSQL_ROOT_PASSWORD: geheim                # ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: WerwolfIQ                      # Initial database name
+    ports:
+      - "3306:3306"  # Expose MySQL on port 3306
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro  # Mount init.sql file
+      - db_data:/var/lib/mysql  # Persistent volume for MySQL data
+
+
+
+volumes:
+  db_data:  # Define the named volume for persistent data
