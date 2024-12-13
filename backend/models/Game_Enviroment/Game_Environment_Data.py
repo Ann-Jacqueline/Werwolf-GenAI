@@ -1,18 +1,23 @@
-import openai
+# You have to sign up and get an API key: https://platform.openai.com/signup
+from openai import OpenAI
+client = OpenAI(api_key="")
 
-# Set your API key
-openai.api_key = "YOUR_API_KEY_HERE"  # Replace with your actual API key
 
-# Define the model name
-model_name = "gpt-4o"
+# Pricing: https://openai.com/pricing
+# Harry Potter "Chamber of Secrets" is about 100K tokens (GPT 3.5: ~ 5 cents)
 
-# Create a test request
-response = openai.ChatCompletion.create(
-    model=model_name,
-    messages=[{"role": "user", "content": "Who are you?"}],
-    max_tokens=50,
-    temperature=0.7
+
+# Set limits: https://platform.openai.com/account/billing/limits
+# Check usage: https://platform.openai.com/account/usage
+
+
+# OpenAI API documentation: https://platform.openai.com/docs/introduction/overview
+
+response = client.chat.completions.create(
+  model="gpt-4o",
+  messages=[
+    {"role": "system", "content": "Wer bist du?"}
+  ]
 )
 
-# Print the response
-print("API Call Test Output:", response.choices[0].message.content.strip())
+print(response.choices[0].message.content)
