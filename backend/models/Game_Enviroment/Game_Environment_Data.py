@@ -1,6 +1,18 @@
 # You have to sign up and get an API key: https://platform.openai.com/signup
 from openai import OpenAI
-client = OpenAI(api_key="")
+import os
+
+# Den API-Key aus der Umgebungsvariable laden
+api_key = os.getenv("YOUR_API_KEY")
+if not api_key:
+    raise ValueError("Umgebungsvariable 'YOUR_API_KEY' ist nicht gesetzt!")
+
+# OpenAI-Client initialisieren
+client = OpenAI(api_key=api_key)
+
+# Testaufruf (optional, z. B. um das Modell abzufragen)
+print("OpenAI-Client erfolgreich initialisiert.")
+
 
 
 # Pricing: https://openai.com/pricing
