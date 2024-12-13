@@ -1,0 +1,11 @@
+CREATE DATABASE IF NOT EXISTS WerwolfIQ;
+
+USE WerwolfIQ;
+
+CREATE TABLE Game_State (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    players VARCHAR(50) NOT NULL,
+    input_prompt TEXT NOT NULL,
+    output TEXT NOT NULL
+);
+
