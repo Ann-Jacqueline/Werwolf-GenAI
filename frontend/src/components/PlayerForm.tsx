@@ -25,8 +25,8 @@ export const PlayerForm = ({
       <input
         type="number"
         id="players"
-        min="1"
-        max="10"
+        min="7"
+        max="20"
         value={playerCount}
         onChange={(e) => onPlayerCountChange(parseInt(e.target.value) || 1)}
         className="input-animated w-full pl-4 pr-4 py-3 rounded-lg border border-gray-300 shadow focus:outline-none"

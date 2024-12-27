@@ -9,12 +9,13 @@ function App() {
     const [response, setResponse] = useState('');
     const [bubbles, setBubbles] = useState<JSX.Element[]>([]);
     const [currentGameId, setCurrentGameId] = useState<number | null>(null);
+    const [currentPhaseId, setCurrentPhaseId] = useState<number | null>(null);
 
     useEffect(() => {
         axios
             .get('http://127.0.0.1:5000/api/data')
             .then((response) => {
-                console.log('Nachricht vom BE', response.data.message);
+                console.log('Nachricht vom Backend', response.data.message);
             })
             .catch((error) => {
                 console.error('Fehler beim Abrufen der Daten:', error);
@@ -22,16 +23,15 @@ function App() {
     }, []);
 
     useEffect(() => {
-        // Generiere Bläschen nur einmal beim Laden der Komponente
         const colors = ['bubble-green', 'bubble-beige', 'bubble-pink', 'bubble-purple'];
         const sizes = ['bubble-small', 'bubble-medium', 'bubble-large'];
 
         const generatedBubbles = [...Array(30)].map((_, i) => {
             const randomColor = colors[Math.floor(Math.random() * colors.length)];
             const randomSize = sizes[Math.floor(Math.random() * sizes.length)];
-            const randomX = Math.random() * 100; // Positionierung in Prozent
+            const randomX = Math.random() * 100;
             const randomY = Math.random() * 100;
-            const randomDelay = Math.random() * 5; // Zufällige Verzögerung (Sekunden)
+            const randomDelay = Math.random() * 5;
 
             return (
                 <div
@@ -47,105 +47,123 @@ function App() {
         });
 
         setBubbles(generatedBubbles);
-    }, []); // Leer, damit es nur einmal ausgeführt wird
+    }, []);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-        const maxPlayers = 8;
+    // Validate active game and phase
+    if (!currentGameId) {
+        alert('No active game. Please start a game first.');
+        return;
+    }
+    if (!currentPhaseId) {
+        alert('No active phase. Please start a phase first.');
+        return;
+    }
 
-        if (playerCount > maxPlayers) {
-            setResponse(`Maximale Spieler*innenanzahl von ${maxPlayers} überschritten`);
-            return;
-        }
+    try {
+        // Send prompt to the backend
+        const { data } = await axios.post('http://127.0.0.1:5000/api/data', {
+            game_id: currentGameId,
+            phase_id: currentPhaseId,
+            prompt: userInput,
+            response: '', // Placeholder for backend-generated response
+        });
 
-        const agentsToAdd = maxPlayers - playerCount;
+        // Update response state or notify if no response
+        setResponse(data.response || 'No response from the backend.');
+    } catch (error) {
+        console.error('Error sending prompt:', error);
+        setResponse('Failed to send the prompt. Please try again.');
+    }
+};
 
-        const message = `${playerCount} Spieler treten bei. Bitte generiere ${agentsToAdd} zusätzliche Agent*innen, um die Gruppe auf ${maxPlayers} zu füllen.`;
+const startGame = async () => {
+    try {
+        const humanPlayers = 1; // Fixed number of human players
+        const totalPlayers = playerCount; // User input for the total number of players
+        const aiPlayers = totalPlayers - humanPlayers; // Calculate the number of AI players
 
-        // Nachricht ans Backend
-        try {
-            const res = await axios.post('http://127.0.0.1:5000/api/data', {
-                prompt: message,
-            });
-            setResponse(res.data.response || 'Keine Antwort vom Backend');
-        } catch (error) {
-            console.error('Fehler beim Senden der Anfrage', error);
-            setResponse('Fehler beim Senden der Anfrage');
-        }
-    };
+        // Send the total number of players (human + AI) to the backend
+        const response = await axios.post('http://127.0.0.1:5000/api/start_game', {
+            human_players: humanPlayers,
+            total_players: totalPlayers,
+        });
 
-    // Spiel starten
-    const startGame = async () => {
-        try {
-            const response = await axios.post('http://127.0.0.1:5000/api/start_game');
-            setCurrentGameId(response.data.game_round_id);
-            alert(`Spiel gestartet! ID: ${response.data.game_round_id}`);
-        } catch (error) {
-            console.error('Fehler beim Starten des Spiels:', error);
-            alert('Fehler beim Starten des Spiels.');
-        }
-    };
+        setCurrentGameId(response.data.game_id);
+        alert(`Game started! ID: ${response.data.game_id}, AI Players: ${aiPlayers}`);
+    } catch (error) {
+        console.error('Error starting the game:', error);
+        alert('Failed to start the game.');
+    }
+};
 
-    // Spiel beenden
+
     const endGame = async () => {
         if (!currentGameId) {
-            alert('Kein aktives Spiel zum Beenden.');
+            alert('No active game to end.');
             return;
         }
 
         try {
             await axios.post('http://127.0.0.1:5000/api/end_game', {
-                game_round_id: currentGameId,
+                game_id: currentGameId,
             });
-            alert(`Spielrunde ${currentGameId} beendet!`);
-            setCurrentGameId(null); // Spielrunde zurücksetzen
+
+            alert(`Game ${currentGameId} ended!`);
+            setCurrentGameId(null);
+            setCurrentPhaseId(null);
         } catch (error) {
-            console.error('Fehler beim Beenden des Spiels:', error);
-            alert('Fehler beim Beenden des Spiels.');
+            console.error('Error ending the game:', error);
+            alert('Failed to end the game.');
+        }
+    };
+
+    const exportGameData = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:5000/api/export');
+            alert(response.data.message);
+        } catch (error) {
+            console.error('Error exporting game data:', error);
+            alert('Failed to export game data.');
         }
     };
 
     return (
         <div className="app-container">
-            {/* Hintergrundanimation */}
             <div className="background">{bubbles}</div>
 
-            {/* Hauptinhalt */}
             <div className="content">
                 <h1 className="title">Enter the Magical Forest</h1>
 
-                {/* Spiel-Buttons */}
                 <div className="game-controls">
                     <button onClick={startGame} className="button">
-                        Spiel Start
+                        Start Game
                     </button>
-                    <button
-                        onClick={endGame}
-                        className="button"
-                        disabled={!currentGameId}
-                    >
-                        Spiel Ende
+                    <button onClick={endGame} className="button" disabled={!currentGameId}>
+                        End Game
+                    </button>
+                    <button onClick={exportGameData} className="button">
+                        Export Data
                     </button>
                 </div>
 
-                {/* Anzeige der aktuellen Spielrunde */}
                 <p className="game-status">
                     {currentGameId
-                        ? `Aktive Spielrunde: ${currentGameId}`
-                        : 'Kein aktives Spiel.'}
+                        ? `Active Game ID: ${currentGameId}`
+                        : 'No active game.'}
                 </p>
 
-                {/* Spieleranzahl und Nachricht */}
                 <form onSubmit={handleSubmit} className="form">
                     <label className="label">
                         Number of Players
                         <input
                             type="number"
-                            min="1"
-                            max="8"
+                            min="7"
+                            max="20"
                             value={playerCount}
-                            onChange={(e) => setPlayerCount(parseInt(e.target.value, 9))}
+                            onChange={(e) => setPlayerCount(parseInt(e.target.value, 10))}
                             className="input"
                         />
                     </label>
@@ -163,7 +181,6 @@ function App() {
                     </button>
                 </form>
 
-                {/* Antwortfeld */}
                 <div className="response-container">
                     <h2 className="response-title">Response from Backend</h2>
                     <p className="response-message">{response || 'Waiting for a response ...'}</p>
