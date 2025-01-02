@@ -2,7 +2,7 @@ import time
 import random
 
 class VotingModule:
-    def __init__(self, game_state, prompt_builder, gpt_client, consensus_checker, moderator, global_history):
+    def __init__(self, game_state, prompt_builder, gpt_client, consensus_checker, moderator, global_history, reflection):
         """
         Initializes the Voting Module.
 
@@ -13,6 +13,7 @@ class VotingModule:
             consensus_checker: ConsensusChecker module for checking consensus among players.
             moderator: Moderator module for announcements and phase management.
             global_history: GlobalHistoryModel for recording game events.
+            reflection: Reflection module for player strategy generation.
         """
         self.game_state = game_state
         self.prompt_builder = prompt_builder
@@ -20,8 +21,9 @@ class VotingModule:
         self.consensus_checker = consensus_checker
         self.moderator = moderator
         self.global_history = global_history
+        self.reflection = reflection  # Corrected field name
 
-    def night_phase(self, round_number: int) -> None:
+    def night_phase(self, round_number: int) -> str:
         """
         Handles the night phase of the game and returns the eliminated player.
 
@@ -29,56 +31,47 @@ class VotingModule:
             round_number (int): The current round number.
 
         Returns:
-            str: The ID of the eliminated player, or a placeholder indicating no elimination.
+            str: The ID of the eliminated player, or "No Elimination" if no player is eliminated.
         """
         print(f"Night phase started for Round {round_number}.")
         self.moderator.handle_phase_transition("night", round_number)
 
+        # Activate werewolves
         werewolves = self.game_state.get_players_with_role("werewolf")
-        eliminated_player = None
-        attempts = 0
-        timeout = 10
-
         if not werewolves:
             print("No werewolves found. Skipping night phase.")
-            return None  # Exit early if no werewolves
+            return "No Elimination"
 
-        while not eliminated_player and attempts < timeout:
-            for werewolf in werewolves:  # Ensure this is a valid list
+        for werewolf in werewolves:
+            self.game_state.activate_player(werewolf)
+
+        eliminated_player = None
+        while not eliminated_player:
+            for werewolf in werewolves:
                 valid_targets = self.game_state.get_valid_targets(werewolf)
-                print(f"Valid targets for {werewolf}: {valid_targets}")  # Debug
-                last_statement = self.game_state.get_last_statement(werewolf)
+                print(f"Valid targets for {werewolf}: {valid_targets}")
                 prompt = self.prompt_builder.build_night_prompt(
                     player=werewolf,
                     role=self.game_state.get_role(werewolf),
                     round_number=round_number,
                     conversation_log=self.game_state.get_conversation_log(),
-                    last_statement=last_statement,
+                    last_statement=self.game_state.players[werewolf]['last_statement'],
                     valid_targets=valid_targets,
                 )
                 suggestion = self.gpt_client.get_suggestion(prompt, valid_targets)
-                print(f"Suggestion for {werewolf}: {suggestion}")  # Debug
+                print(f"Suggestion for {werewolf}: {suggestion}")
                 self.game_state.add_to_conversation_log(werewolf, suggestion)
 
             print("\n--- Current Conversation Log ---")
             print(self.game_state.get_conversation_log())
 
-            # Use consensus checker to determine elimination
-            eliminated_player = self.consensus_checker.check_consensus(self.game_state, current_player=werewolves[0])
-            if eliminated_player:
-                print(f"\n*** Consensus reached on Player {eliminated_player}! ***")
-                break
+            eliminated_player = self.consensus_checker.check_consensus(
+                self.game_state, current_player=werewolves[0]
+            )
 
-            attempts += 1
-
-        # Validate eliminated_player and apply fallback if necessary
-        if eliminated_player is None:
-            print("No eliminated player determined. Using fallback.")
-            eliminated_player = self.fallback_elimination()
-
-        if eliminated_player:
-            self.game_state.finalize_elimination(eliminated_player)
+        self.game_state.finalize_elimination(eliminated_player)
         return eliminated_player
+
 
     def day_phase(self, eliminated_player: str, round_number: int):
         """
@@ -95,6 +88,12 @@ class VotingModule:
             print(f"Day phase started for Round {round_number}. No player was eliminated during the night.")
             self.moderator.announce_elimination(None, None)
 
+        # Activate all players for discussion
+        for player in self.game_state.get_remaining_players():
+            self.game_state.activate_player(player)
+            if player == "Human":  # Skip Human player for AI suggestions
+                self.game_state.deactivate_player(player)
+
         discussion_ongoing = True
         while discussion_ongoing:
             start_time = time.time()
@@ -104,13 +103,18 @@ class VotingModule:
                     self.game_state.add_to_conversation_log("Human", human_input)
 
                 for player in self.game_state.get_remaining_players():
+                    if player == "Human":
+                        continue
                     prompt = self.prompt_builder.build_day_prompt(
                         player=player,
                         round_number=round_number,
                         last_statement=self.game_state.get_last_statement(player),
                         conversation_log=self.game_state.get_conversation_log(),
-                        role_strategy=self.game_state.get_strategy(player),
-                        remaining_players=self.game_state.get_remaining_players()
+                        role_strategy=self.reflection.get_strategy(
+                            role=self.game_state.get_role(player),
+                            phase="day"
+                        ),
+                        remaining_players=self.game_state.players[player]['remaining_players']
                     )
                     suggestion = self.gpt_client.get_suggestion(prompt)
                     self.game_state.add_to_conversation_log(player, suggestion)

@@ -41,7 +41,8 @@ class Orchestrator:
             self.gpt_interaction,
             self.consensus_checker,
             self.moderator,
-            self.global_history
+            self.global_history,
+            self.reflection
         )
 
         # Spielstatus
@@ -69,14 +70,14 @@ class Orchestrator:
                 self.moderator.handle_phase_transition("night", self.round_number)
                 eliminated_player = self.voting.night_phase(self.round_number)
 
-                if eliminated_player:
+                if eliminated_player and eliminated_player != "No Elimination":
                     self.global_history.record_event("elimination", {"player": eliminated_player, "phase": "night"})
                     self.moderator.announce_elimination(
                         eliminated_player,
                         self.game_state.get_role(eliminated_player)
                     )
                 else:
-                    eliminated_player = "No Elimination"
+                    eliminated_player = "No Elimination"  # Explicit fallback
 
                 self.phase = "day"  # Transition to day phase
 

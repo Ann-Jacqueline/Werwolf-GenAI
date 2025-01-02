@@ -45,6 +45,7 @@ class PromptBuilder:
             2. Propose an alternative target with reasoning or agree.
             3. Avoid suggesting the same target repeatedly without justification.
             4. Provide reasoning in one concise sentence ending with a period.
+            5. Speak in the first person so ("I") and address your teammate personally with ("you")
             """
 
     @staticmethod
@@ -78,8 +79,10 @@ class PromptBuilder:
 
         **Guidelines:**
         1. Respond concisely and reference prior statements from the log.
-        2. Build on or challenge suggestions aligned with your strategy.
-        3. Suggest a target for elimination with a brief justification.
+        2. React emotionally and offended if accused. Justify yourself persuasively and attempt to shift suspicion to others.
+        3. Recognize when players try to deflect suspicion and address it based on your strategy.
+        4. Suggest a target for elimination with a brief justification, swaying the conversation to align with your strategy.
+        5. Respond only in one sentence!
 
         Example: "Player B appears suspicious based on their earlier statements. I recommend targeting them."
         """
@@ -109,7 +112,7 @@ class PromptBuilder:
 
         Respond with the player's name only.
 
-        Example: "Player A" or just "A"
+        Example: "Player A" 
         """
 
 
