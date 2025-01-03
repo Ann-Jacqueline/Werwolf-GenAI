@@ -4,6 +4,7 @@ from db.schema import initialize_database
 from db.game_db import start_game, end_game
 from db.prompt_db import save_prompt_response
 from db.export_utils import export_to_json
+from models.LSA_MHA_Module.GlobalHistoryModul_GH import GlobalHistoryModel
 
 import os
 
