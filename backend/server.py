@@ -4,7 +4,11 @@ from db.schema import initialize_database
 from db.game_db import start_game, end_game
 from db.prompt_db import save_prompt_response
 from db.export_utils import export_to_json
+
 import os
+
+
+
 
 app = Flask(__name__)
 CORS(app)
@@ -69,6 +73,18 @@ def process_prompt():
         return jsonify({"message": "Prompt and response saved successfully."}), 200
     except Exception as e:
         return jsonify({"error": f"Error processing prompt: {str(e)}"}), 500
+
+
+@app.route("/api/log", methods=["GET"])
+def fetch_log():
+    try:
+        relevant_log = global_history.get_recent_announcements(limit=1)
+        return jsonify({
+            "relevant_log": relevant_log[0] if relevant_log else "No relevant logs yet."
+        }), 200
+    except Exception as e:
+        return jsonify({"error": f"Failed to fetch logs: {str(e)}"}), 500
+
 
 @app.route("/api/export", methods=['GET'])
 def export_data():

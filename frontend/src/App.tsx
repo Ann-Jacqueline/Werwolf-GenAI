@@ -10,6 +10,7 @@ function App() {
     const [bubbles, setBubbles] = useState<JSX.Element[]>([]);
     const [currentGameId, setCurrentGameId] = useState<number | null>(null);
     const [currentPhaseId, setCurrentPhaseId] = useState<number | null>(null);
+    const [currentLog, setCurrentLog] = useState('');
 
     useEffect(() => {
         axios
@@ -47,6 +48,21 @@ function App() {
         });
 
         setBubbles(generatedBubbles);
+    }, []);
+
+     // Fetch logs periodically
+
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            axios.get('http://127.0.0.1:5000/api/log')
+                .then(response => {
+                    setCurrentLog(response.data.relevant_log || "No relevant logs.");
+                })
+                .catch(error => console.error("Error fetching logs:", error));
+        }, 5000); // Update every 5 seconds
+
+        return () => clearInterval(interval); // Cleanup on unmount
     }, []);
 
 const handleSubmit = async (e: React.FormEvent) => {
@@ -154,6 +170,12 @@ const startGame = async () => {
                         ? `Active Game ID: ${currentGameId}`
                         : 'No active game.'}
                 </p>
+
+                <div className="log-container">
+                    <h2 className="log-title">Relevant Log</h2>
+                    <p className="log-message">{currentLog}</p>
+                </div>
+
 
                 <form onSubmit={handleSubmit} className="form">
                     <label className="label">
