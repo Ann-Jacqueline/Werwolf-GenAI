@@ -3,6 +3,9 @@ class PromptBuilder:
     This class generates context-sensitive prompts for various phases of the Werewolf game.
     """
 
+    def __init__(self, global_history=None):
+        self.global_history = global_history
+
     @staticmethod
     def build_night_prompt(player, role, round_number, conversation_log, last_statement, valid_targets):
         """
@@ -42,49 +45,34 @@ class PromptBuilder:
 
             **Guidelines:**
             1. Acknowledge or challenge your teammate's suggestions if you have more information about player behaviour so not during the frist night of the first round.
-            2. Propose an alternative target with reasoning or agree.
+            2. Be Agreeable with your teammate and  only propose an alternative if you have a founded strategic reason.
             3. Avoid suggesting the same target repeatedly without justification.
             4. Provide reasoning in one concise sentence ending with a period.
             5. Speak in the first person so ("I") and address your teammate personally with ("you")
             """
 
-    @staticmethod
-    def build_day_prompt(player, round_number, last_statement, conversation_log, role_strategy, remaining_players):
-        """
-        Generates a prompt for the day phase to support discussions and decisions.
-
-        Args:
-            player (str): Player ID.
-            round_number (int): Current round number.
-            last_statement (str): Player's last statement.
-            conversation_log (str): Conversation log up to this point.
-            role_strategy (str): Strategy specific to the player's role.
-            remaining_players (list): List of remaining players.
-
-        Returns:
-            str: Formatted day phase prompt.
-        """
-        if not remaining_players:
-            raise ValueError("No remaining players available for discussion.")
+    def build_day_prompt(self, player, round_number, last_statement, conversation_log, role_strategy, remaining_players):
+        global_announcements = self.global_history.get_recent_announcements() if self.global_history else []
+        combined_log = global_announcements + conversation_log
 
         return f"""
-        === DAY PHASE (Round {round_number}) ===
-        Player {player}, align with your strategy as a {role_strategy}.
+            === DAY PHASE (Round {round_number}) ===
+            Player {player}, align with your strategy as a {role_strategy}.
 
-        Last statement: '{last_statement or "None"}'
-        Discussion log:
-        {conversation_log or "No discussions yet."}
+            Last statement: '{last_statement or "None"}'
+            Discussion log:
+            {combined_log or "No discussions yet."}
 
-        Active players: {', '.join(remaining_players + ['Human Player'])}
+            Active players: {', '.join(remaining_players + ['Human Player'])}
 
-        **Guidelines:**
-        1. Respond concisely and reference prior statements from the log.
-        2. React emotionally and offended if accused. Justify yourself persuasively and attempt to shift suspicion to others.
-        3. Recognize when players try to deflect suspicion and address it based on your strategy.
-        4. Suggest a target for elimination with a brief justification, swaying the conversation to align with your strategy.
-        5. Respond only in one sentence!
+            **Guidelines:**
+            1. Respond concisely and reference prior statements from the log.
+            2. React emotionally and offended if accused. Justify yourself persuasively and attempt to shift suspicion to others.
+            3. Recognize when players try to deflect suspicion and address it based on your strategy.
+            4. Suggest a target for elimination with a brief justification, swaying the conversation to align with your strategy.
+            5. Respond only in one sentence!
 
-        Example: "Player B appears suspicious based on their earlier statements. I recommend targeting them."
+            Example: "Player B appears suspicious based on their earlier statements. I recommend targeting them."
         """
 
     @staticmethod

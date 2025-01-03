@@ -23,10 +23,13 @@ class Orchestrator:
         )
         self.logger = logging.getLogger(__name__)
 
+        # Global history initialization
+        self.global_history = GlobalHistoryModel(self.logger)
+
         # Module initialisieren
         self.game_state = GameState()
-        self.prompt_builder = PromptBuilder()
-        self.reflection = Reflection(self.game_state.to_dict())  # Pass dictionary-like data
+        self.prompt_builder = PromptBuilder(global_history=self.global_history)
+        self.reflection = Reflection(self.game_state.to_dict())
         self.gpt_interaction = GPTInteraction(self.logger)
         self.moderator = Moderator(self.logger)
         self.consensus_checker = ConsensusChecker(
@@ -42,10 +45,10 @@ class Orchestrator:
             self.consensus_checker,
             self.moderator,
             self.global_history,
-            self.reflection
+            self.reflection,
+            logger=self.logger
         )
 
-        # Spielstatus
         self.round_number = 1
         self.phase = "night"  # Startphase
 
@@ -53,46 +56,56 @@ class Orchestrator:
         """
         Initialisiert das Spiel, inklusive Rollen und Strategien.
         """
-        player_ids = ['A', 'B', 'C', 'D', 'E']  # Beispiel-Spielerkennungen
-        strategies = self.reflection.get_all_strategies()  # Strategien für alle Rollen holen
-        self.game_state.initialize_roles(player_ids, strategies)  # Rollen und Strategien initialisieren
+        player_ids = ['A', 'B', 'C', 'D', 'E']
+        strategies = self.reflection.get_all_strategies()
+
+        # Ensure game state initializes correctly
+        self.game_state.initialize_roles(player_ids, strategies)
         self.logger.info("Game initialized with roles and strategies.")
-        self.global_history.record_event("game_initialized", {"players": player_ids, "strategies": strategies})
+        self.global_history.record_event(
+            "game_initialized",
+            {"players": player_ids, "strategies": strategies}
+        )
 
     def handle_phase(self):
         """
         Handles the current phase (night or day) and transitions between phases.
         """
         try:
-            eliminated_player = None  # Ensure `eliminated_player` is always defined
+            eliminated_player = "No Elimination"  # Default value
 
             if self.phase == "night":
                 self.moderator.handle_phase_transition("night", self.round_number)
                 eliminated_player = self.voting.night_phase(self.round_number)
 
-                if eliminated_player and eliminated_player != "No Elimination":
-                    self.global_history.record_event("elimination", {"player": eliminated_player, "phase": "night"})
+                if eliminated_player != "No Elimination":
+                    self.global_history.record_event(
+                        "elimination", {"player": eliminated_player, "phase": "night"}
+                    )
                     self.moderator.announce_elimination(
                         eliminated_player,
                         self.game_state.get_role(eliminated_player)
                     )
-                else:
-                    eliminated_player = "No Elimination"  # Explicit fallback
+                self.phase = "day"
 
-                self.phase = "day"  # Transition to day phase
-
-            if self.phase == "day":
+            elif self.phase == "day":
                 self.moderator.handle_phase_transition("day", self.round_number)
+                self.moderator.comment_on_discussion(
+                    conversation_log=self.game_state.global_conversation_log,
+                    human_player="Human"
+                )
+                eliminated_player = self.voting.day_phase(eliminated_player, self.round_number)
 
-                # Ensure `eliminated_player` has a valid value
-                if not eliminated_player:
-                    eliminated_player = "No Elimination"
-
-                self.voting.day_phase(eliminated_player, self.round_number)
-                self.global_history.record_event("discussion", {"phase": "day"})
-
-                self.phase = "night"  # Transition to night phase
-                self.round_number += 1  # Increment round number
+                if eliminated_player != "No Elimination":
+                    self.global_history.record_event(
+                        "elimination", {"player": eliminated_player, "phase": "day"}
+                    )
+                    self.moderator.announce_elimination(
+                        eliminated_player,
+                        self.game_state.get_role(eliminated_player)
+                    )
+                self.phase = "night"
+                self.round_number += 1
 
         except Exception as e:
             self.logger.error(f"Error during phase handling: {e}")
@@ -104,15 +117,31 @@ class Orchestrator:
         """
         print("Game started!")
         self.logger.info("Game started!")
-
-        # Initialisierung der Rollen und Strategien über GameState und Reflection
         self.initialize_game()
 
-        # Spielzyklus starten
         while True:
             self.handle_phase()
 
+    def handle_conversation(self, player_id, prompt, statement):
+        """
+        Handles conversation for a specific player during the active phase.
 
+        Args:
+            player_id (str): The player ID.
+            prompt (str): The prompt to present to the player.
+            statement (str): The player's generated response.
+        """
+        # Log the prompt for debugging
+        self.logger.debug(f"Prompt for Player {player_id}: {prompt}")
+
+        # Log the player's statement and update their conversation log
+        self.game_state.add_to_conversation_log(player_id, statement)
+        self.logger.info(f"Player {player_id} responded: {statement}")
+
+        # Only update the local log if the player is awake
+        if self.game_state.players[player_id]["awake"]:
+            local_log = self.game_state.get_conversation_log(player_id)  # Pass the player_id
+            self.logger.info(f"Local log for {player_id}: {local_log}")
 
 
 # Beispielaufruf

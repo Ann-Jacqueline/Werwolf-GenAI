@@ -1,8 +1,7 @@
 import logging
 from datetime import datetime
 import json
-
-
+import typing
 class GlobalHistoryModel:
     """
     Global History Model (GH): Tracks the history of actions, decisions, and eliminations throughout the game.
@@ -42,6 +41,22 @@ class GlobalHistoryModel:
         self.history.append(event)
         self.logger.info(f"Event recorded: {event}")
 
+    def get_recent_announcements(self, limit=5):
+        """
+        Fetches the most recent announcements from the global history.
+
+        Args:
+            limit (int): The maximum number of recent announcements to fetch. Defaults to 5.
+
+        Returns:
+            list: A list of recent announcement details.
+        """
+        return [
+            event["details"]
+            for event in reversed(self.history)
+            if event["event_type"] == "elimination"
+        ][:limit]
+
     def get_history(self, event_type=None):
         """
         Retrieves the entire history or filters by event type.
@@ -77,9 +92,10 @@ class GlobalHistoryModel:
         except Exception as e:
             self.logger.error(f"Failed to export history: {e}")
 
+
     def sync_with_database(self, database_client):
         """
-        Syncs the in-memory history with a database.
+        Syncs the in-memory history and logs with a database.
 
         Args:
             database_client: Database client instance with a `write` method.
@@ -91,8 +107,8 @@ class GlobalHistoryModel:
             raise ValueError("Database client must have a 'write' method.")
 
         try:
-            database_client.write(self.history)
-            self.logger.info("History successfully synced with the database.")
+            database_client.write({"history": self.history, "logs": self.logs})
+            self.logger.info("History and logs successfully synced with the database.")
         except Exception as e:
             self.logger.error(f"Error during database sync: {e}")
             raise
