@@ -5,10 +5,9 @@ from db.game_db import start_game, end_game
 from db.prompt_db import save_prompt_response
 from db.export_utils import export_to_json
 from models.LSA_MHA_Module.Orchestrator import Orchestrator
-import threading
+from threading import Thread
 
 import os
-print(f"Current working directory: {os.getcwd()}")
 
 app = Flask(__name__)
 CORS(app)
@@ -39,8 +38,12 @@ def start_game_route():
         total_players = data.get("total_players", 7)
         game_id = start_game(total_players)
         active_game_id = game_id
-        orchestrator_thread = threading.Thread(target=orchestrator.start_game(), daemon=True)
+
+        # Start orchestrator in a separate thread
+        orchestrator_thread = Thread(target=orchestrator.start_game)
+        orchestrator_thread.daemon = True  # Ensures thread ends with the main process
         orchestrator_thread.start()
+
         print(f"New game started with ID: {active_game_id}")  # Debug
         return jsonify({"message": "Game started", "game_id": active_game_id}), 200
     except Exception as e:
@@ -102,24 +105,15 @@ def process_prompt():
         return jsonify({"error": f"Error processing prompt: {str(e)}"}), 500
 
 
-@app.route("/api/log", methods=["GET"])
-def fetch_log():
+@app.route("/api/live_log", methods=["GET"])
+def fetch_live_log():
     try:
-        log_file_path = os.path.join(os.path.dirname(__file__), "models", "LSA_MHA_Module", "game_log.txt")
-
-        # Lese die letzten 10 Zeilen aus der Log-Datei
-        if os.path.exists(log_file_path):
-            with open(log_file_path, "r") as log_file:
-                logs = log_file.readlines()[-10:]  # Letzten 10 Zeilen lesen
-        else:
-            logs = ["Log file not found."]
-
-        # Rückgabe der Logs als JSON
-        return jsonify({"console_output": logs}), 200
+        # Hole den Log-Puffer vom Orchestrator
+        logs = orchestrator.log_stream.getvalue().splitlines()[-20:]  # Letzten 20 Zeilen
+        return jsonify({"logs": logs}), 200
 
     except Exception as e:
         return jsonify({"error": f"Failed to fetch logs: {str(e)}"}), 500
-
 
 
 @app.route("/api/export", methods=['GET'])

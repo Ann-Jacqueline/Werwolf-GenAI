@@ -7,6 +7,7 @@ from .VotingModul_VM import VotingModule
 from .ModeratorModul_MM import Moderator
 from .GlobalHistoryModul_GH import GlobalHistoryModel
 from .ConsensusCheckerModul_CC import ConsensusChecker
+from io import StringIO
 
 
 class Orchestrator:
@@ -15,16 +16,36 @@ class Orchestrator:
     """
 
     def __init__(self):
-        # Logging initialisieren
+        '''
+         # Logging initialisieren
         logging.basicConfig(
             filename="game_log.txt",
             level=logging.INFO,
             format="%(asctime)s - %(levelname)s - %(message)s"
         )
+        '''
+
         self.logger = logging.getLogger(__name__)
 
         # Global history initialization
         self.global_history = GlobalHistoryModel(self.logger)
+
+        # Logging initialisieren
+        self.log_stream = StringIO()  # Puffer für Logs
+        log_formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+
+        # File handler (für game_log.txt)
+        file_handler = logging.FileHandler("game_log.txt")
+        file_handler.setFormatter(log_formatter)
+
+        # Stream handler (für den Puffer)
+        stream_handler = logging.StreamHandler(self.log_stream)
+        stream_handler.setFormatter(log_formatter)
+
+        self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(logging.INFO)
+        self.logger.addHandler(file_handler)
+        self.logger.addHandler(stream_handler)
 
         # Module initialisieren
         self.game_state = GameState()

@@ -6,7 +6,7 @@
 }
 
 .title {
-    margin-top: -40px; /* Verschiebt den Titel weiter nach oben */
+    margin-top: -45px; /* Verschiebt den Titel weiter nach oben */
     font-size: 2.5rem; /* Optional: Schriftgröße anpassen */
     font-weight: bold; /* Optional: Schriftgewicht erhöhen */
     text-align: center;
@@ -78,31 +78,33 @@
 }
 
 .console-container {
-    position: fixed; /* Fixiert den Container links */
-    left: 10px; /* Abstand von der linken Seite */
-    top: 20%; /* Platz nach oben */
-    width: 250px; /* Breite des Containers */
-    height: 75vh; /* Höhe des Containers */
-    overflow-y: scroll; /* Scrollbar, wenn Inhalte länger als der Container */
-    border: 1px solid rgba(200, 200, 200, 0.6); /* Leichter grauer durchsichtiger Rahmen */
-    background-color: rgba(255, 255, 255, 0); /* Transparenter Hintergrund */
-    font-family: "Courier New", Courier, monospace; /* Computerschrift */
-    font-size: 0.9rem; /* Etwas kleinere Schriftgröße */
-    color: gray; /* Graue Schrift */
-    padding: 10px; /* Etwas Abstand nach innen */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Leichter Schatten */
+    position: fixed;
+    left: 10px;
+    top: 20%;
+    width: 250px;
+    height: 75vh;
+    overflow-y: auto; /* Automatisches Scrollen */
+    border: 1px solid rgba(200, 200, 200, 0.6);
+    background-color: rgba(255, 255, 255, 0);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.9rem;
+    color: gray;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .console-container ul {
-    list-style-type: none; /* Keine Aufzählungszeichen */
-    padding: 0; /* Kein Padding */
-    margin: 0; /* Kein Margin */
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }
 
 .console-container li {
-    padding: 5px 0; /* Abstand zwischen den Einträgen */
-    white-space: nowrap; /* Zeilen nicht umbrechen */
+    white-space: nowrap;
+    border-bottom: 1px solid #ddd;
+    padding: 5px 0;
 }
+
 
 .console-title {
     font-size: 1rem;
@@ -119,13 +121,3 @@
     margin-bottom: 10px;
 }
 
-.console-container ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.console-container li {
-    padding: 4px 0;
-    border-bottom: 1px solid #ddd;
-}

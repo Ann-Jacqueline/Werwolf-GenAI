@@ -17,13 +17,12 @@ function App() {
     useEffect(() => {
         const interval = setInterval(() => {
             axios
-                .get('http://127.0.0.1:5000/api/log')
+                .get('http://127.0.0.1:5000/api/live_log')
                 .then((response) => {
-                    console.log("Logs fetched:", response.data.console_output);
-                    setConsoleOutput(response.data.console_output || []);
+                    setConsoleOutput(response.data.logs || []);
                 })
                 .catch((error) => console.error('Error fetching logs:', error));
-        }, 2000); // Alle 5 Sekunden abrufen
+        }, 5000); // Alle 5 Sekunden abrufen
 
         return () => clearInterval(interval); // Cleanup
     }, []);
