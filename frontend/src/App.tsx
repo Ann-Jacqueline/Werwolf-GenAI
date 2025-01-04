@@ -10,7 +10,8 @@ function App() {
     const [bubbles, setBubbles] = useState<JSX.Element[]>([]);
     const [currentGameId, setCurrentGameId] = useState<number | null>(null);
     const [consoleOutput, setConsoleOutput] = useState<string[]>([]);
-    const [isGameRunning, setIsGameRunning] = useState(false); // Neuer State
+    const [isGameRunning, setIsGameRunning] = useState(false);
+
 
     // Fetch logs periodically
     useEffect(() => {
@@ -193,11 +194,15 @@ function App() {
 
                 <div className="console-container">
                     <h2 className="console-title">Console Output</h2>
-                    <ul>
-                        {consoleOutput.map((log, index) => (
-                            <li key={index}>{log}</li>
-                        ))}
-                    </ul>
+                    {consoleOutput && consoleOutput.length > 0 ? (
+                        <ul>
+                            {consoleOutput.map((log, index) => (
+                                <li key={index}>{log}</li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No logs available.</p>
+                    )}
                 </div>
             </div>
         </div>

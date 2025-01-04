@@ -5,6 +5,15 @@
   text-align: center;
 }
 
+.title {
+    margin-top: -40px; /* Verschiebt den Titel weiter nach oben */
+    font-size: 2.5rem; /* Optional: Schriftgröße anpassen */
+    font-weight: bold; /* Optional: Schriftgewicht erhöhen */
+    text-align: center;
+    color: #2f4f2f; /* Grüner Farbton */
+}
+
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -44,14 +53,17 @@
 /*Antwortcontainer*/
 
 .response-container {
-  margin-top: 20px;
-  padding: 20px;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  background-color: #fde68a;
-  text-align: center;
-  color: #2f4f2f;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  position: fixed; /* Fixiert den Container */
+    right: 35px; /* Abstand von der rechten Seite */
+    top: 55%; /* Platz nach oben */
+    width: 250px; /* Breite des Containers */
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #fde68a;
+    text-align: center;
+    color: #2f4f2f;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .response-title{
@@ -66,12 +78,40 @@
 }
 
 .console-container {
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    position: fixed; /* Fixiert den Container links */
+    left: 10px; /* Abstand von der linken Seite */
+    top: 20%; /* Platz nach oben */
+    width: 250px; /* Breite des Containers */
+    height: 75vh; /* Höhe des Containers */
+    overflow-y: scroll; /* Scrollbar, wenn Inhalte länger als der Container */
+    border: 1px solid rgba(200, 200, 200, 0.6); /* Leichter grauer durchsichtiger Rahmen */
+    background-color: rgba(255, 255, 255, 0); /* Transparenter Hintergrund */
+    font-family: "Courier New", Courier, monospace; /* Computerschrift */
+    font-size: 0.9rem; /* Etwas kleinere Schriftgröße */
+    color: gray; /* Graue Schrift */
+    padding: 10px; /* Etwas Abstand nach innen */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Leichter Schatten */
 }
+
+.console-container ul {
+    list-style-type: none; /* Keine Aufzählungszeichen */
+    padding: 0; /* Kein Padding */
+    margin: 0; /* Kein Margin */
+}
+
+.console-container li {
+    padding: 5px 0; /* Abstand zwischen den Einträgen */
+    white-space: nowrap; /* Zeilen nicht umbrechen */
+}
+
+.console-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: gray;
+    text-align: center;
+}
+
 
 .console-title {
     font-size: 18px;

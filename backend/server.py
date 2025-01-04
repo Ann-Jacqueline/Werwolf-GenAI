@@ -5,6 +5,7 @@ from db.game_db import start_game, end_game
 from db.prompt_db import save_prompt_response
 from db.export_utils import export_to_json
 from models.LSA_MHA_Module.Orchestrator import Orchestrator
+import threading
 
 import os
 print(f"Current working directory: {os.getcwd()}")
@@ -26,7 +27,7 @@ orchestrator = Orchestrator()
 
 @app.route("/api/start_game", methods=['POST'])
 def start_game_route():
-    global active_game_id
+    global active_game_id, orchestrator_thread
     print(f"Before starting game: active_game_id={active_game_id}")  # Debug
 
     if active_game_id is not None:
@@ -38,14 +39,22 @@ def start_game_route():
         total_players = data.get("total_players", 7)
         game_id = start_game(total_players)
         active_game_id = game_id
-        #orchestrator.start_game()
+        orchestrator_thread = threading.Thread(target=orchestrator.start_game(), daemon=True)
+        orchestrator_thread.start()
         print(f"New game started with ID: {active_game_id}")  # Debug
         return jsonify({"message": "Game started", "game_id": active_game_id}), 200
     except Exception as e:
         print(f"Error starting game: {e}")  # Debug
         return jsonify({"error": f"Error starting game: {str(e)}"}), 500
 
-
+@app.route("/api/next_phase", methods=['POST'])
+def next_phase():
+    global orchestrator
+    try:
+        orchestrator.handle_phase()  # Nur eine Phase ausführen
+        return jsonify({"message": "Phase handled", "current_phase": orchestrator.phase}), 200
+    except Exception as e:
+        return jsonify({"error": f"Error handling phase: {str(e)}"}), 500
 
 @app.route("/api/end_game", methods=['POST'])
 def end_game_route():

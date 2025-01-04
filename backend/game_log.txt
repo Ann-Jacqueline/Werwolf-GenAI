@@ -460,3 +460,65 @@
 2025-01-04 12:45:13,457 - INFO - 127.0.0.1 - - [04/Jan/2025 12:45:13] "GET /api/log HTTP/1.1" 200 -
 2025-01-04 12:46:03,465 - INFO - 127.0.0.1 - - [04/Jan/2025 12:46:03] "GET /api/log HTTP/1.1" 200 -
 2025-01-04 12:47:06,761 - INFO - 127.0.0.1 - - [04/Jan/2025 12:47:06] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:48:03,458 - INFO - 127.0.0.1 - - [04/Jan/2025 12:48:03] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:49:03,463 - INFO - 127.0.0.1 - - [04/Jan/2025 12:49:03] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:50:03,515 - INFO - 127.0.0.1 - - [04/Jan/2025 12:50:03] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:50:28,160 - INFO -  * Detected change in '/Users/laura/PycharmProjects/Werwolf-GenAI/backend/server.py', reloading
+2025-01-04 12:50:29,043 - INFO -  * Restarting with stat
+2025-01-04 12:50:33,463 - WARNING -  * Debugger is active!
+2025-01-04 12:50:33,570 - INFO -  * Debugger PIN: 129-958-025
+2025-01-04 12:51:09,215 - INFO - 127.0.0.1 - - [04/Jan/2025 12:51:09] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:51:09,757 - INFO -  * Detected change in '/Users/laura/PycharmProjects/Werwolf-GenAI/backend/server.py', reloading
+2025-01-04 12:51:10,148 - INFO -  * Restarting with stat
+2025-01-04 12:51:14,382 - WARNING -  * Debugger is active!
+2025-01-04 12:51:14,403 - INFO -  * Debugger PIN: 129-958-025
+2025-01-04 12:52:03,488 - INFO - 127.0.0.1 - - [04/Jan/2025 12:52:03] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:53:09,972 - INFO - 127.0.0.1 - - [04/Jan/2025 12:53:09] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:54:13,472 - INFO - 127.0.0.1 - - [04/Jan/2025 12:54:13] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:54:49,320 - INFO - 127.0.0.1 - - [04/Jan/2025 12:54:49] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:54:51,295 - INFO - 127.0.0.1 - - [04/Jan/2025 12:54:51] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:54:53,436 - INFO - 127.0.0.1 - - [04/Jan/2025 12:54:53] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:54:55,307 - INFO - 127.0.0.1 - - [04/Jan/2025 12:54:55] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:54:57,338 - INFO - 127.0.0.1 - - [04/Jan/2025 12:54:57] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:54:59,415 - INFO - 127.0.0.1 - - [04/Jan/2025 12:54:59] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:55:01,431 - INFO - 127.0.0.1 - - [04/Jan/2025 12:55:01] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:55:03,356 - INFO - 127.0.0.1 - - [04/Jan/2025 12:55:03] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:55:05,437 - INFO - 127.0.0.1 - - [04/Jan/2025 12:55:05] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:55:07,400 - INFO - 127.0.0.1 - - [04/Jan/2025 12:55:07] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:55:09,441 - INFO - 127.0.0.1 - - [04/Jan/2025 12:55:09] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:55:22,328 - INFO - 127.0.0.1 - - [04/Jan/2025 12:55:22] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:55:26,274 - INFO - 127.0.0.1 - - [04/Jan/2025 12:55:26] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:55:32,779 - INFO - 127.0.0.1 - - [04/Jan/2025 12:55:32] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:55:34,785 - INFO - 127.0.0.1 - - [04/Jan/2025 12:55:34] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:55:36,811 - INFO - 127.0.0.1 - - [04/Jan/2025 12:55:36] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:55:38,841 - INFO - 127.0.0.1 - - [04/Jan/2025 12:55:38] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:55:40,839 - INFO - 127.0.0.1 - - [04/Jan/2025 12:55:40] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:55:42,844 - INFO - 127.0.0.1 - - [04/Jan/2025 12:55:42] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:55:44,853 - INFO - 127.0.0.1 - - [04/Jan/2025 12:55:44] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:55:46,867 - INFO - 127.0.0.1 - - [04/Jan/2025 12:55:46] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:55:48,841 - INFO - 127.0.0.1 - - [04/Jan/2025 12:55:48] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:55:51,209 - INFO - 127.0.0.1 - - [04/Jan/2025 12:55:51] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:56:03,584 - INFO - 127.0.0.1 - - [04/Jan/2025 12:56:03] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:56:18,580 - INFO - 127.0.0.1 - - [04/Jan/2025 12:56:18] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:56:29,531 - INFO - 127.0.0.1 - - [04/Jan/2025 12:56:29] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:56:52,977 - INFO - 127.0.0.1 - - [04/Jan/2025 12:56:52] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 12:57:20,645 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-01-04 12:57:20,647 - INFO - [33mPress CTRL+C to quit[0m
+2025-01-04 12:57:20,663 - INFO -  * Restarting with stat
+2025-01-04 12:57:27,693 - WARNING -  * Debugger is active!
+2025-01-04 12:57:27,760 - INFO -  * Debugger PIN: 129-958-025
+2025-01-04 13:00:26,957 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-01-04 13:00:26,957 - INFO - [33mPress CTRL+C to quit[0m
+2025-01-04 13:00:26,960 - INFO -  * Restarting with stat
+2025-01-04 13:00:29,297 - WARNING -  * Debugger is active!
+2025-01-04 13:00:29,331 - INFO -  * Debugger PIN: 129-958-025
+2025-01-04 13:00:37,936 - INFO - 127.0.0.1 - - [04/Jan/2025 13:00:37] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 13:01:03,889 - INFO - 127.0.0.1 - - [04/Jan/2025 13:01:03] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 13:01:08,439 - INFO - 127.0.0.1 - - [04/Jan/2025 13:01:08] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 13:01:10,433 - INFO - 127.0.0.1 - - [04/Jan/2025 13:01:10] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 13:01:12,435 - INFO - 127.0.0.1 - - [04/Jan/2025 13:01:12] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 13:01:14,469 - INFO - 127.0.0.1 - - [04/Jan/2025 13:01:14] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 13:01:16,459 - INFO - 127.0.0.1 - - [04/Jan/2025 13:01:16] "GET /api/log HTTP/1.1" 200 -
+2025-01-04 13:01:18,466 - INFO - 127.0.0.1 - - [04/Jan/2025 13:01:18] "GET /api/log HTTP/1.1" 200 -
