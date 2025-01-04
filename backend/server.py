@@ -4,12 +4,10 @@ from db.schema import initialize_database
 from db.game_db import start_game, end_game
 from db.prompt_db import save_prompt_response
 from db.export_utils import export_to_json
-from models.LSA_MHA_Module.GlobalHistoryModul_GH import GlobalHistoryModel
+from models.LSA_MHA_Module.Orchestrator import Orchestrator
 
 import os
-
-
-
+print(f"Current working directory: {os.getcwd()}")
 
 app = Flask(__name__)
 CORS(app)
@@ -23,38 +21,57 @@ def api_status():
 def api_data():
     return jsonify({"message": "Backend is running."})
 
+active_game_id = None
+orchestrator = Orchestrator()
+
 @app.route("/api/start_game", methods=['POST'])
 def start_game_route():
-    data = request.json
-    human_players = data.get("human_players", 1)
-    total_players = data.get("total_players", 7)  # Default to 7 if not provided
+    global active_game_id
+    print(f"Before starting game: active_game_id={active_game_id}")  # Debug
 
-    if not 1 <= human_players <= total_players:
-        return jsonify({"error": "Invalid player counts."}), 400
+    if active_game_id is not None:
+        print(f"Game already running with ID {active_game_id}.")  # Debug
+        return jsonify({"error": "Already running!", "game_id": active_game_id}), 400
 
     try:
-        # Start a new game and store the number of total players
-        game_id = start_game(total_players)  # Pass total_players to start_game
-        return jsonify({"message": "Game started", "game_id": game_id}), 200
+        data = request.json
+        total_players = data.get("total_players", 7)
+        game_id = start_game(total_players)
+        active_game_id = game_id
+        #orchestrator.start_game()
+        print(f"New game started with ID: {active_game_id}")  # Debug
+        return jsonify({"message": "Game started", "game_id": active_game_id}), 200
     except Exception as e:
+        print(f"Error starting game: {e}")  # Debug
         return jsonify({"error": f"Error starting game: {str(e)}"}), 500
+
 
 
 @app.route("/api/end_game", methods=['POST'])
 def end_game_route():
+    global active_game_id
+    print(f"Before ending game: active_game_id={active_game_id}")  # Debug
+
+    if active_game_id is None:
+        print("No active game to end.")  # Debug
+        return jsonify({"error": "No active game"}), 400
+
     data = request.json
     game_id = data.get("game_id")
 
-    if not game_id:
-        return jsonify({"error": "game_id is required."}), 400
+    if game_id != active_game_id:
+        print(f"Invalid game_id. Expected {active_game_id}, got {game_id}.")  # Debug
+        return jsonify({"error": "Invalid game_id."}), 400
 
     try:
-        # End the game
         end_game(game_id)
+        active_game_id = None
+        print("Game ended successfully.")  # Debug
         return jsonify({"message": f"Game {game_id} ended successfully."}), 200
-
     except Exception as e:
+        print(f"Error ending game: {e}")  # Debug
         return jsonify({"error": f"Error ending game: {str(e)}"}), 500
+
 
 @app.route("/api/data", methods=['POST'])
 def process_prompt():
@@ -79,12 +96,21 @@ def process_prompt():
 @app.route("/api/log", methods=["GET"])
 def fetch_log():
     try:
-        relevant_log = global_history.get_recent_announcements(limit=1)
-        return jsonify({
-            "relevant_log": relevant_log[0] if relevant_log else "No relevant logs yet."
-        }), 200
+        log_file_path = os.path.join(os.path.dirname(__file__), "models", "LSA_MHA_Module", "game_log.txt")
+
+        # Lese die letzten 10 Zeilen aus der Log-Datei
+        if os.path.exists(log_file_path):
+            with open(log_file_path, "r") as log_file:
+                logs = log_file.readlines()[-10:]  # Letzten 10 Zeilen lesen
+        else:
+            logs = ["Log file not found."]
+
+        # Rückgabe der Logs als JSON
+        return jsonify({"console_output": logs}), 200
+
     except Exception as e:
         return jsonify({"error": f"Failed to fetch logs: {str(e)}"}), 500
+
 
 
 @app.route("/api/export", methods=['GET'])

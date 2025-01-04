@@ -1,12 +1,12 @@
 import logging
-from GameStateModul_GS import GameState
-from PromptBuilder_PB import PromptBuilder
-from ReflectionModul_RM import Reflection
-from GPTInteractionModul_GPT import GPTInteraction
-from VotingModul_VM import VotingModule
-from ModeratorModul_MM import Moderator
-from GlobalHistoryModul_GH import GlobalHistoryModel
-from ConsensusCheckerModul_CC import ConsensusChecker
+from .GameStateModul_GS import GameState
+from .PromptBuilder_PB import PromptBuilder
+from .ReflectionModul_RM import Reflection
+from .GPTInteractionModul_GPT import GPTInteraction
+from .VotingModul_VM import VotingModule
+from .ModeratorModul_MM import Moderator
+from .GlobalHistoryModul_GH import GlobalHistoryModel
+from .ConsensusCheckerModul_CC import ConsensusChecker
 
 
 class Orchestrator:
@@ -142,6 +142,13 @@ class Orchestrator:
         if self.game_state.players[player_id]["awake"]:
             local_log = self.game_state.get_conversation_log(player_id)  # Pass the player_id
             self.logger.info(f"Local log for {player_id}: {local_log}")
+
+    def log_event(self,message):
+        """
+        Loggt ein Ereignis in das GHM und gibt es in Konsole aus
+        """
+        self.logger.info(message)
+        self.global_history.record_event("log", {"message": message})
 
 
 # Beispielaufruf
