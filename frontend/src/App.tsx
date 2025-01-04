@@ -28,59 +28,73 @@ function App() {
     }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    e.preventDefault();
 
-        // Validate active game
-        if (!currentGameId) {
-            alert('No active game. Please start a game first.');
-            return;
-        }
+    // Validate active game
+    if (!currentGameId) {
+        alert('No active game. Please start a game first.');
+        return;
+    }
 
-        try {
-            const { data } = await axios.post('http://127.0.0.1:5000/api/data', {
-                game_id: currentGameId,
-                prompt: userInput,
-                response: '', // Placeholder
-            });
+    // Beispiel für phase_id - hier dynamisch oder festgelegt:
+    const currentPhaseId = "example_phase_id"; // Ersetzen durch den tatsächlichen Wert
+    const currentPlayerId = "Human"; // Annahme, dass der Human-Player immer "Human" ist
 
-            setResponse(data.response || 'No response from the backend.');
-        } catch (error) {
-            console.error('Error sending prompt:', error);
-            setResponse('Failed to send the prompt. Please try again.');
-        }
-    };
+    try {
+        const { data } = await axios.post('http://127.0.0.1:5000/api/data', {
+            game_id: currentGameId,   // Spiel-ID
+            phase_id: currentPhaseId, // Phase-ID
+            player_id: currentPlayerId, // Spieler-ID
+            prompt: userInput,       // Eingabefeld
+            response: '',            // Antwort - aktuell leer
+        });
+
+        // Setze die Antwort des Backends
+        setResponse(data.response || 'No response from the backend.');
+    } catch (error) {
+        console.error('Error sending prompt:', error);
+        setResponse('Failed to send the prompt. Please try again.');
+    }
+};
+
 
     const startGame = async () => {
-        if (isGameRunning) {
-            alert('Game is already running. End the current game to start a new one.');
-            return;
-        }
+    if (isGameRunning) {
+        alert('Game is already running. End the current game to start a new one.');
+        return;
+    }
 
-        if (!humanPlayer.trim()) {
-            alert('Please provide your name to start the game.');
-            return;
-        }
+    if (!humanPlayer.trim()) {
+        alert('Please provide your name to start the game.');
+        return;
+    }
 
-        try {
-            const response = await axios.post('http://127.0.0.1:5000/api/start_game', {
-                human_players: 1,
-                total_players: playerCount,
-                human_name: humanPlayer, // Name of the Human Player
-            });
+    if (playerCount < 7) {
+        alert('You must have at least 7 players to start the game.');
+        return;
+    }
 
-            setCurrentGameId(response.data.game_id);
-            setIsGameRunning(true);
-            alert(`Game started! Welcome, ${humanPlayer}!`);
-        } catch (error: unknown) {
-            if (axios.isAxiosError(error)) {
-                if (error.response && error.response.data.error) {
-                    alert(error.response.data.error);
-                } else {
-                    alert('Failed to start the game.');
-                }
+    try {
+        const response = await axios.post('http://127.0.0.1:5000/api/start_game', {
+            human_players: 1,           // Anzahl der menschlichen Spieler
+            total_players: playerCount, // Gesamte Spieleranzahl
+            human_name: humanPlayer,    // Name des Human-Players
+        });
+
+        setCurrentGameId(response.data.game_id);
+        setIsGameRunning(true);
+        alert(`Game started! Welcome, ${humanPlayer}!`);
+    } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+            if (error.response && error.response.data.error) {
+                alert(error.response.data.error);
+            } else {
+                alert('Failed to start the game.');
             }
         }
-    };
+    }
+};
+
 
     const endGame = async () => {
         if (!currentGameId) {

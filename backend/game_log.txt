@@ -711,3 +711,16 @@
 2025-01-04 15:48:15,922 - INFO - Player A (villager) has been eliminated during the night phase.
 2025-01-04 15:48:15,922 - INFO - Starting Day Phase for Round 1.
 2025-01-04 15:48:15,923 - INFO - No player was eliminated this round.
+2025-01-04 16:05:53,387 - INFO - Game started!
+2025-01-04 16:05:53,388 - INFO - Game initialized with roles and strategies.
+2025-01-04 16:05:53,389 - INFO - Event recorded: {'timestamp': '2025-01-04T16:05:53.389353', 'event_type': 'game_initialized', 'details': {'players': ['A', 'B', 'C', 'D', 'E'], 'strategies': {'villager': 'Focus on gathering information and identifying suspicious behavior.', 'werewolf': 'Deflect suspicion, manipulate discussions, and work with your ally to eliminate threats.', 'seer': 'Provide subtle hints about suspicions without revealing your role prematurely.'}}, 'metadata': {}}
+2025-01-04 16:05:53,395 - INFO - Starting Night Phase for Round 1.
+2025-01-04 16:05:53,395 - INFO - Starting Night Phase for Round 1.
+2025-01-04 16:05:54,479 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "Since this is the first night and I don't have any prior information, I suggest we target Player B to maintain randomness and avoid patterns.", 'valid_targets': ['A', 'B', 'C', 'Human'], 'attempt': 1}
+2025-01-04 16:05:55,154 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'I agree with your suggestion, Player D, since targeting Player B maintains randomness and avoids patterns, which is important for the first night.', 'valid_targets': ['A', 'B', 'C', 'Human'], 'attempt': 1}
+2025-01-04 16:05:55,155 - ERROR - Consensus check error: PromptBuilder.build_consensus_prompt() missing 1 required positional argument: 'vote_counts'
+2025-01-04 16:05:55,155 - WARNING - Moderator or global history not properly initialized. Skipping log update.
+2025-01-04 16:05:55,155 - INFO - Event recorded: {'timestamp': '2025-01-04T16:05:55.155638', 'event_type': 'elimination', 'details': {'player': 'B', 'phase': 'night'}, 'metadata': {}}
+2025-01-04 16:05:55,155 - INFO - Player B (villager) has been eliminated during the night phase.
+2025-01-04 16:05:55,156 - INFO - Starting Day Phase for Round 1.
+2025-01-04 16:05:55,156 - INFO - No player was eliminated this round.
