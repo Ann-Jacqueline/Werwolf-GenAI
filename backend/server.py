@@ -36,8 +36,16 @@ def start_game_route():
     try:
         data = request.json
         total_players = data.get("total_players", 7)
+        player_name = data.get("player_name", "Human")
+
         game_id = start_game(total_players)
         active_game_id = game_id
+
+        orchestrator.game_state.initialize_roles(
+            player_ids=['A', 'B', 'C', 'D', 'E'],
+            strategies=orchestrator.reflection.get_all_strategies(),
+            human_player=player_name
+        )
 
         # Start orchestrator in a separate thread
         orchestrator_thread = Thread(target=orchestrator.start_game)

@@ -2,122 +2,134 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+  position: relative;
 }
 
 .title {
-    margin-top: -45px; /* Verschiebt den Titel weiter nach oben */
-    font-size: 2.5rem; /* Optional: Schriftgröße anpassen */
-    font-weight: bold; /* Optional: Schriftgewicht erhöhen */
-    text-align: center;
-    color: #2f4f2f; /* Grüner Farbton */
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #2f4f2f;
 }
 
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.game-controls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.game-status {
+  text-align: center;
+  margin: 10px 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.form-container {
+  display: flex;
+  flex-direction: row; /* Eingabefelder links, Response rechts */
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px; /* Abstand zwischen Eingabefeldern und Response-Container */
+  margin-top: 10px; /* Weniger Abstand zur Überschrift */
+  padding-top: 0; /* Entferne unnötiges Padding */
 }
 
-.card {
-  padding: 2em;
+.input-group {
+  display: flex;
+  flex-direction: column; /* Felder vertikal untereinander */
+  align-items: flex-start; /* Linksbündig ausrichten */
+  gap: 5px; /* Gleichmäßiger Abstand zwischen den Eingabefeldern */
 }
 
-.read-the-docs {
-  color: #888;
+.label {
+  font-size: 1rem;
+  font-weight: bold; /* Labels heben sich besser ab */
+  margin-bottom: 5px; /* Abstand zwischen Label und Eingabefeld */
 }
 
-/*Antwortcontainer*/
+.input {
+  width: 300px; /* Einheitliche Breite */
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box; /* Padding und Border in die Gesamtbreite einrechnen */
+}
+
+textarea.input {
+  height: 100px; /* Höhe für das Nachrichtenfeld */
+  resize: none; /* Kein manuelles Vergrößern des Textfelds */
+}
+
+.button {
+  margin-top: 15px; /* Genug Abstand nach oben */
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  align-self: flex-start; /* Links ausrichten */
+}
 
 .response-container {
-  position: fixed; /* Fixiert den Container */
-    right: 35px; /* Abstand von der rechten Seite */
-    top: 55%; /* Platz nach oben */
-    width: 250px; /* Breite des Containers */
-    padding: 10px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    background-color: #fde68a;
-    text-align: center;
-    color: #2f4f2f;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  background-color: #fde68a;
+  text-align: center;
+  color: #2f4f2f;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px; /* Abstand nach unten zum Button */
 }
 
-.response-title{
+.button {
+  margin-top: 10px; /* Abstand zwischen Response-Container und Button */
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  align-self: center; /* Zentriert den Button unter dem Response-Container */
+}
+
+
+
+.content {
+  margin-top: -150px; /* Hebe den gesamten Inhalt nach oben */
+}
+
+.response-title {
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-.response-message{
-  font-size: 1.2rem;
-  color:#91c788;
-}
-
 .console-container {
-    position: fixed;
-    left: 10px;
-    top: 20%;
-    width: 250px;
-    height: 75vh;
-    overflow-y: auto; /* Automatisches Scrollen */
-    border: 1px solid rgba(200, 200, 200, 0.6);
-    background-color: rgba(255, 255, 255, 0);
-    font-family: "Courier New", Courier, monospace;
-    font-size: 0.9rem;
-    color: gray;
-    padding: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 20vh;
+  overflow-y: auto;
+  border-top: 2px solid rgba(200, 200, 200, 0.6);
+  background-color: rgba(245, 245, 245, 0.8);
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9rem;
+  color: #333;
+  padding: 10px;
+  text-align: center; /* Zentrierter Text */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-
-.console-container ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-.console-container li {
-    white-space: nowrap;
-    border-bottom: 1px solid #ddd;
-    padding: 5px 0;
-}
-
 
 .console-title {
-    font-size: 1rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: gray;
-    text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
-
-
-.console-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-

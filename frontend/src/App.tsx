@@ -11,7 +11,7 @@ function App() {
     const [currentGameId, setCurrentGameId] = useState<number | null>(null);
     const [consoleOutput, setConsoleOutput] = useState<string[]>([]);
     const [isGameRunning, setIsGameRunning] = useState(false);
-
+    const [humanPlayer, setHumanPlayer] = useState('');
 
     // Fetch logs periodically
     useEffect(() => {
@@ -22,7 +22,7 @@ function App() {
                     setConsoleOutput(response.data.logs || []);
                 })
                 .catch((error) => console.error('Error fetching logs:', error));
-        }, 5000); // Alle 5 Sekunden abrufen
+        }, 5000); // Every 5 seconds
 
         return () => clearInterval(interval); // Cleanup
     }, []);
@@ -56,21 +56,28 @@ function App() {
             return;
         }
 
+        if (!humanPlayer.trim()) {
+            alert('Please provide your name to start the game.');
+            return;
+        }
+
         try {
             const response = await axios.post('http://127.0.0.1:5000/api/start_game', {
-                human_players: 1, // Fixed number of human players
+                human_players: 1,
                 total_players: playerCount,
+                human_name: humanPlayer, // Name of the Human Player
             });
 
             setCurrentGameId(response.data.game_id);
             setIsGameRunning(true);
-            alert(`Game started! ID: ${response.data.game_id}`);
+            alert(`Game started! Welcome, ${humanPlayer}!`);
         } catch (error: unknown) {
-            if(axios.isAxiosError(error))
-            if (error.response && error.response.data.error) {
-                alert(error.response.data.error);
-            } else {
-                alert('Failed to start the game.');
+            if (axios.isAxiosError(error)) {
+                if (error.response && error.response.data.error) {
+                    alert(error.response.data.error);
+                } else {
+                    alert('Failed to start the game.');
+                }
             }
         }
     };
@@ -90,11 +97,12 @@ function App() {
             setCurrentGameId(null);
             setIsGameRunning(false);
         } catch (error: unknown) {
-            if(axios.isAxiosError(error))
-            if (error.response && error.response.data.error) {
-                alert(error.response.data.error);
-            } else {
-                alert('Failed to end the game.');
+            if (axios.isAxiosError(error)) {
+                if (error.response && error.response.data.error) {
+                    alert(error.response.data.error);
+                } else {
+                    alert('Failed to end the game.');
+                }
             }
         }
     };
@@ -108,7 +116,7 @@ function App() {
         }
     };
 
-    // Bubble animation (unchanged)
+    // Bubble animation
     useEffect(() => {
         const colors = ['bubble-green', 'bubble-beige', 'bubble-pink', 'bubble-purple'];
         const sizes = ['bubble-small', 'bubble-medium', 'bubble-large'];
@@ -136,76 +144,99 @@ function App() {
         setBubbles(generatedBubbles);
     }, []);
 
-    return (
-        <div className="app-container">
-            <div className="background">{bubbles}</div>
-            <div className="content">
-                <h1 className="title">Enter the Magical Forest</h1>
+   return (
+    <div className="app-container">
+        <div className="background">{bubbles}</div>
+        <div className="content">
+            <h1 className="title">Enter the Magical Forest</h1>
 
-                <div className="game-controls">
-                    <button onClick={startGame} className="button" disabled={isGameRunning}>
-                        Start Game
-                    </button>
-                    <button onClick={endGame} className="button" disabled={!isGameRunning}>
-                        End Game
-                    </button>
-                    <button onClick={exportGameData} className="button">
-                        Export Data
-                    </button>
-                </div>
+            <div className="game-controls">
+                <button onClick={startGame} className="button" disabled={isGameRunning}>
+                    Start Game
+                </button>
+                <button onClick={endGame} className="button" disabled={!isGameRunning}>
+                    End Game
+                </button>
+                <button onClick={exportGameData} className="button">
+                    Export Data
+                </button>
+            </div>
 
-                <p className="game-status">
-                    {currentGameId
-                        ? `Active Game ID: ${currentGameId}`
-                        : 'No active game.'}
-                </p>
+            <p className="game-status">
+                {currentGameId ? `Active Game ID: ${currentGameId}` : "No active game."}
+            </p>
 
-                <form onSubmit={handleSubmit} className="form">
-                    <label className="label">
+            {/* Eingabefelder und Response-Container */}
+            <div className="form-container">
+                {/* Linker Bereich: Eingabefelder */}
+                <form onSubmit={handleSubmit} className="input-group">
+                    <label className="label" htmlFor="players">
                         Number of Players
-                        <input
-                            type="number"
-                            min="7"
-                            max="20"
-                            value={playerCount}
-                            onChange={(e) => setPlayerCount(parseInt(e.target.value, 10))}
-                            className="input"
-                        />
                     </label>
-                    <label className="label">
-                        Your Message
-                        <textarea
-                            value={userInput}
-                            onChange={(e) => setUserInput(e.target.value)}
-                            className="input input-animated"
-                            placeholder="Type your message here..."
-                        ></textarea>
+                    <input
+                        type="number"
+                        id="players"
+                        min="7"
+                        max="20"
+                        value={playerCount}
+                        onChange={(e) => setPlayerCount(parseInt(e.target.value, 10))}
+                        className="input"
+                    />
+
+                    <label className="label" htmlFor="name">
+                        Your Name:
                     </label>
-                    <button type="submit" className="button">
-                        Send Message
-                    </button>
+                    <input
+                        type="text"
+                        id="name"
+                        value={humanPlayer}
+                        onChange={(e) => setHumanPlayer(e.target.value)}
+                        className="input"
+                        placeholder="Enter your name..."
+                    />
+
+                    <label className="label" htmlFor="message">
+                        Your Message:
+                    </label>
+                    <textarea
+                        id="message"
+                        value={userInput}
+                        onChange={(e) => setUserInput(e.target.value)}
+                        className="input"
+                        placeholder="Type your message here..."
+                    ></textarea>
                 </form>
 
-                <div className="response-container">
-                    <h2 className="response-title">Backend Response</h2>
-                    <p>{response || 'Waiting for a response...'}</p>
-                </div>
-
-                <div className="console-container">
-                    <h2 className="console-title">Console Output</h2>
-                    {consoleOutput && consoleOutput.length > 0 ? (
-                        <ul>
-                            {consoleOutput.map((log, index) => (
-                                <li key={index}>{log}</li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p>No logs available.</p>
-                    )}
+                {/* Rechter Bereich: Response-Container */}
+                <div>
+                    <div className="response-container">
+                        <h2 className="response-title">Backend Response</h2>
+                        <p>{response || "Waiting for a response..."}</p>
+                    </div>
+                    <button type="submit" className="button" onClick={handleSubmit}>
+                        Send Message
+                    </button>
                 </div>
             </div>
+
+
+            {/* Konsolenausgabe */}
+            <div className="console-container">
+                <h2 className="console-title">Console Output</h2>
+                {consoleOutput && consoleOutput.length > 0 ? (
+                    <ul>
+                        {consoleOutput.map((log, index) => (
+                            <li key={index}>{log}</li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No logs available.</p>
+                )}
+            </div>
         </div>
-    );
+    </div>
+   );
+
 }
 
 export default App;

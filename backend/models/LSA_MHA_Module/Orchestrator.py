@@ -171,6 +171,19 @@ class Orchestrator:
         self.logger.info(message)
         self.global_history.record_event("log", {"message": message})
 
+    def handle_human_player_turn(self):
+            """
+            Logik für die Interaktion mit dem Human Player.
+            """
+            human_player = self.game_state.get_human_player()
+            self.logger.info(f"Human Player {human_player} is up. Awaiting their argument.")
+
+            # Aufforderung an das Frontend, Argument zu liefern
+            self.global_history.record_event(
+                "human_turn",
+                {"message": f"Human Player {human_player}, please provide your argument."}
+            )
+
 
 # Beispielaufruf
 if __name__ == "__main__":
