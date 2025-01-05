@@ -162,7 +162,8 @@ function App() {
     <div className="app-container">
         <div className="background">{bubbles}</div>
         <div className="content">
-            <h1 className="title">Enter the Magical Forest</h1>
+            <h1 className="title">Welcome to WerwolfIQ</h1>
+
 
             <div className="game-controls">
                 <button onClick={startGame} className="button" disabled={isGameRunning}>
@@ -233,6 +234,11 @@ function App() {
                 </div>
             </div>
 
+            <div className="wolf-container">
+                <img src="Wolf_image.jpeg" alt="Wolf Icon" className="wolf-image"/>
+            </div>
+
+            <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet"/>
 
             {/* Konsolenausgabe */}
             <div className="console-container">

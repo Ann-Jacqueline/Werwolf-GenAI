@@ -1,3 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
+.title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  background: linear-gradient(90deg, #ffffff, #8b008b, #191970, #8b008b, #000000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.2px #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -9,8 +24,15 @@
   font-size: 2.5rem;
   font-weight: bold;
   text-align: center;
-  color: #2f4f2f;
+  color: #8b008b;
+  background: linear-gradient(90deg, #ffffff, #8b008b, #191970, #8b008b, #000000);
+  -webkit-background-clip: text; /* Clip den Hintergrund an den Text */
+  -webkit-text-fill-color: transparent; /* Textfüllung wird transparent */
+  -webkit-text-stroke: 0.2px #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); /* Leichter Schatten für Tiefe */
+  font-family: 'Orbitron', Courier, sans-serif;
 }
+
 
 .game-controls {
   display: flex;
@@ -22,6 +44,7 @@
 .game-status {
   text-align: center;
   margin: 10px 0;
+  font-family: "Courier New", Courier, monospace;
 }
 
 .form-container {
@@ -32,6 +55,7 @@
   gap: 40px; /* Abstand zwischen Eingabefeldern und Response-Container */
   margin-top: 10px; /* Weniger Abstand zur Überschrift */
   padding-top: 0; /* Entferne unnötiges Padding */
+
 }
 
 .input-group {
@@ -39,12 +63,16 @@
   flex-direction: column; /* Felder vertikal untereinander */
   align-items: flex-start; /* Linksbündig ausrichten */
   gap: 5px; /* Gleichmäßiger Abstand zwischen den Eingabefeldern */
+
 }
 
 .label {
   font-size: 1rem;
   font-weight: bold; /* Labels heben sich besser ab */
   margin-bottom: 5px; /* Abstand zwischen Label und Eingabefeld */
+  color: beige;
+  font-family: "Courier New", Courier, monospace;
+
 }
 
 .input {
@@ -54,11 +82,17 @@
   border-radius: 5px;
   border: 1px solid #ccc;
   box-sizing: border-box; /* Padding und Border in die Gesamtbreite einrechnen */
+  background: rgba(25, 25, 112, 0.5);
+  color: #ffffff;
+  font-family: "Courier New", Courier, monospace;
 }
 
 textarea.input {
   height: 100px; /* Höhe für das Nachrichtenfeld */
   resize: none; /* Kein manuelles Vergrößern des Textfelds */
+  background: rgba(25, 25, 112, 0.5);
+  color: #ffffff;
+  font-family: "Courier New", Courier, monospace;
 }
 
 .button {
@@ -67,22 +101,26 @@ textarea.input {
   font-size: 1rem;
   border-radius: 5px;
   border: none;
-  background-color: #4caf50;
-  color: white;
+  background-color: #191970;
+  color: beige;
   cursor: pointer;
   align-self: flex-start; /* Links ausrichten */
+  font-family: "Courier New", Courier, monospace;
+
 }
 
 .response-container {
+  margin-top: 25px;
   width: 300px;
   padding: 20px;
   border: 2px solid #ccc;
   border-radius: 10px;
-  background-color: #fde68a;
   text-align: center;
-  color: #2f4f2f;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px; /* Abstand nach unten zum Button */
+  background: rgba(25, 25, 112, 0.5);
+  color: #ffffff;
+  font-family: "Courier New", Courier, monospace;
 }
 
 .button {
@@ -91,13 +129,12 @@ textarea.input {
   font-size: 1rem;
   border-radius: 5px;
   border: none;
-  background-color: #4caf50;
+  background-color: #191970;
   color: white;
   cursor: pointer;
   align-self: center; /* Zentriert den Button unter dem Response-Container */
+  font-family: "Courier New", Courier, monospace;
 }
-
-
 
 .content {
   margin-top: -150px; /* Hebe den gesamten Inhalt nach oben */
@@ -117,12 +154,12 @@ textarea.input {
   height: 20vh;
   overflow-y: auto;
   border-top: 2px solid rgba(200, 200, 200, 0.6);
-  background-color: rgba(245, 245, 245, 0.8);
+  background-color: rgba(190, 190, 190, 0.3);
   font-family: "Courier New", Courier, monospace;
   font-size: 0.9rem;
-  color: #333;
+  color: white;
   padding: 10px;
-  text-align: center; /* Zentrierter Text */
+  text-align: left; /* Zentrierter Text */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -145,6 +182,32 @@ textarea.input {
     font-size: 1rem;
     font-weight: bold;
     margin-bottom: 10px;
-    color: gray;
+    color: white;
     text-align: left; /* Titel der Konsole linksbündig */
+}
+
+.wolf-container {
+  position: fixed; /* Fixiert das Bild oben links */
+  top: 20px; /* Abstand vom oberen Rand */
+  left: 20px; /* Abstand vom linken Rand */
+  width: 150px; /* Breite des Bildes */
+  height: 150px; /* Höhe des Bildes */
+  z-index: 1000; /* Stellt sicher, dass es immer sichtbar ist */
+}
+.wolf-image {
+  width: 100%; /* Bild passt sich an den Container an */
+  height: auto; /* Beibehaltung der Seitenverhältnisse */
+  animation: pulse 3s ease-in-out infinite; /* Animation anwenden */
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1); /* Originalgröße */
+  }
+  50% {
+    transform: scale(1.1); /* Vergrößert um 10% */
+  }
+  100% {
+    transform: scale(1); /* Zurück zur Originalgröße */
+  }
 }

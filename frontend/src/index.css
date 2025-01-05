@@ -3,8 +3,11 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(to bottom, #a3d9a5, #6bbf73);
-  color: #2f4f2f;
+  background: radial-gradient(circle,
+              rgba(139, 0, 139, 0.8) 20%, /* Magenta in der Mitte */
+              rgba(25, 25, 112, 0.8) 30%, /* Dunkelblau */
+              #000000 100%); /* Schwarz außen */
+  color: #ffffff; /* Weißer Text für Lesbarkeit */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,7 +17,7 @@ body {
 
 h1 {
   font-size: 3rem;
-  color: #2d572c;
+  color: #191970;
   margin-bottom: 2rem;
   text-align: center;
   font-weight: 700;
@@ -30,24 +33,23 @@ form {
 label {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #4b7845;
+  color: #191970;
 }
 
 input,
 textarea {
   width: 80%;
   padding: 0.75rem;
-  border: 2px solid #91c788;
+  border: 2px solid #191970;
   border-radius: 10px;
   font-size: 1rem;
-  background: #f8f8f8;
 }
 
 input:focus,
 textarea:focus {
   outline: none;
-  border-color: #6bbf73;
-  box-shadow: 0 0 5px rgba(107, 191, 115, 0.5);
+  border-color: #191970;
+  box-shadow: 0 0 5px rgba(139, 0, 139, 0.8);
 }
 
 textarea {
@@ -55,8 +57,7 @@ textarea {
 }
 
 button {
-  background-color: #6bbf73;
-  color: #fff;
+  background-color: #191970;
   font-size: 1rem;
   padding: 0.75rem 1.5rem;
   border: none;
@@ -67,11 +68,11 @@ button {
 }
 
 button:hover {
-  background-color: #5aa564;
+  background-color: #faf0e6;
 }
 
 button:disabled {
-  background-color: #c2c2c2;
+  background-color: #faf0e6;
   cursor: not-allowed;
 }
 
@@ -79,11 +80,11 @@ button:disabled {
   margin-top: 2rem;
   padding: 1rem;
   border-radius: 10px;
-  background-color: #fef8e6;
-  border: 2px solid #eadcc1;
+  background-color: #faf0e6;
+  border: 2px solid #faf0e6;
   text-align: center;
   font-size: 1.2rem;
-  color: #806f42;
+  color: #191970;
 }
 
 #background {

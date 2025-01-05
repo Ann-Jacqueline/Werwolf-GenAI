@@ -12,23 +12,22 @@
 
 @keyframes input-color-shift {
   0% {
-    background-color: #a7f3d0; /* Hellgrün */
+    background-color: #000000;
   }
   33% {
-    background-color: #bfdbfe; /* Hellblau */
+    background-color: #483d8b;
   }
   66% {
-    background-color: #fde68a; /* Hellgelb */
+    background-color: #8b008b;
   }
   100% {
-    background-color: #a7f3d0; /* Zurück zu Hellgrün */
+    background-color: #191970 ;
   }
 }
 
 .input-animated {
   animation: input-color-shift 6s ease-in-out infinite;
 }
-
 
 @keyframes float {
   0% {
@@ -45,6 +44,7 @@
   }
 }
 
+
 .app-container {
   animation: gradient-shift 10s ease-in-out infinite;
 }
@@ -52,33 +52,36 @@
 .bubble-container {
   position: absolute;
   inset: 0;
-  z-index: -1; /* Stellt sicher, dass es im Hintergrund bleibt */
+  z-index: -1; /* Hintergrund */
   overflow: hidden;
-  pointer-events: none; /* Keine Interaktion mit Bläschen möglich */
+  pointer-events: none; /* Keine Interaktion */
 }
 
 .bubble {
   position: absolute;
   border-radius: 50%;
   animation: float 6s ease-in-out infinite;
+  transform-origin: center; /* Bewegung um die Mitte */
+  opacity: 0.7;
 }
+
 
 
 /* Farbvarianten */
 .bubble-green {
-  background-color: rgba(0, 128, 0, 0.3); /* Leichtes Grün */
+  background-color: rgba(139, 0, 139, 0.4); /* Dunkel-Magenta */
 }
 
 .bubble-beige {
-  background-color: rgba(245, 245, 220, 0.4); /* Beiges */
+  background-color: rgba(72, 61, 139, 0.4); /* Dunkelblau */
 }
 
 .bubble-pink {
-  background-color: rgba(255, 182, 193, 0.4); /* Leichtes Rosa */
+  background-color: rgba(238, 130, 238, 0.4); /* Hell-Lila (Lavender) */
 }
 
 .bubble-purple {
-  background-color: rgba(221, 160, 221, 0.4); /* Leichtes Lila */
+  background-color: rgba(255, 105, 180, 0.4); /* Pink */
 }
 
 /* Größenvarianten */
