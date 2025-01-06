@@ -22,9 +22,9 @@ class Moderator:
                 "round_number": round_number
             })
 
-    def announce_elimination(self, eliminated_player, role):
+    def announce_elimination(self, eliminated_player, role, next_phase="day"):
         """
-        Announces the elimination of a player.
+        Announces the elimination of a player and prepares for the next phase.
         """
         if not eliminated_player:
             announcement = "No player was eliminated this round."
@@ -35,7 +35,10 @@ class Moderator:
             return
 
         role_text = f"({role})" if role else "(Unknown role)"
-        announcement = f"Player {eliminated_player} {role_text} has been eliminated during the night phase."
+        announcement = (
+            f"During the night, Player {eliminated_player} {role_text} was eliminated by the werewolves. "
+            f"Begin the {next_phase} discussions."
+        )
         print(announcement)
         self.logger.info(announcement)
 
@@ -46,10 +49,6 @@ class Moderator:
     def comment_on_discussion(self, conversation_log, human_player=None):
         """
         Provides comments on the discussion based on the conversation log.
-
-        Args:
-            conversation_log (list): List of tuples containing player statements.
-            human_player (str, optional): Name of the human player. Defaults to None.
         """
         print("\n--- Moderator Comments ---")
         print("The discussion seems heated! Consider focusing on key points raised.")
@@ -70,5 +69,3 @@ class Moderator:
             print("Players, prepare for the night. Werewolves, make your decisions.")
         elif phase == "day":
             print("Players, it is day. Discuss and prepare for voting.")
-
-

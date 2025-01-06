@@ -109,12 +109,6 @@ class Orchestrator:
                     )
                 self.phase = "day"
 
-            elif self.phase == "day":
-                self.moderator.handle_phase_transition("day", self.round_number)
-                self.moderator.comment_on_discussion(
-                    conversation_log=self.game_state.global_conversation_log,
-                    human_player="Human"
-                )
                 eliminated_player = self.voting.day_phase(eliminated_player, self.round_number)
 
                 if eliminated_player != "No Elimination":
