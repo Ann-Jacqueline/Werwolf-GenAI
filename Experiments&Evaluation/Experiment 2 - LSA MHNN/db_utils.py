@@ -92,5 +92,5 @@ if __name__ == '__main__':
     initialize_database()  # Datenbank initialisieren
     save_to_database("Wie spielt man Werwolf?", "Antwort: [...]", 3, 5)
     save_to_database("Wer ist der Werwolf?", "Antwort: Spielerin A", 3, 6)
-    export_to_json(DB_PATH, '../backend/output.json')
+    export_to_json(DB_PATH, '../../backend/output.json')
 
