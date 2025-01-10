@@ -41,33 +41,67 @@ class GPTInteraction:
             str: A valid response from GPT or a fallback suggestion.
         """
         attempts = 0
-        delay = 1
+        delay = 1  # Initial delay in seconds
 
         while attempts < self.max_attempts:
             try:
+                # Send request to GPT
                 response = self.client.chat.completions.create(
                     model="gpt-4o",
                     messages=[{"role": "system", "content": prompt}]
                 )
                 suggestion = response.choices[0].message.content.strip()
 
-                # Log only the clean GPT response
-                self.logger.info(suggestion)
+                # Log interaction
+                self.logger.info({
+                    "event": "GPT interaction",
+                    "prompt_type": prompt_type,
+                    "response": suggestion,
+                    "valid_targets": valid_targets,
+                    "attempt": attempts + 1
+                })
 
-                # Validate the suggestion
+                # Validate response
                 if valid_targets and not self._validate_suggestion(suggestion, valid_targets):
                     self.logger.warning(f"Invalid suggestion: {suggestion}")
                 else:
+                    # Record to global history
+                    if self.global_history:
+                        self.global_history.record_event(
+                            "gpt_interaction",
+                            {
+                                "prompt_type": prompt_type,
+                                "prompt": prompt,
+                                "response": suggestion,
+                                "valid_targets": valid_targets,
+                                "valid": True
+                            }
+                        )
                     return suggestion
+
             except Exception as e:
                 self.logger.error(f"Error during GPT interaction: {e}")
 
+            # Retry with exponential backoff
             attempts += 1
+            self.logger.info(f"Retrying GPT interaction (Attempt {attempts}/{self.max_attempts})")
             time.sleep(delay)
             delay *= 2
 
+        # Fallback suggestion
         fallback = self.fallback_suggestion(valid_targets)
-        self.logger.error(f"Returning fallback suggestion: {fallback}")
+        self.logger.error(f"All attempts failed. Returning fallback suggestion: {fallback}")
+        if self.global_history:
+            self.global_history.record_event(
+                "gpt_interaction",
+                {
+                    "prompt_type": prompt_type,
+                    "prompt": prompt,
+                    "response": fallback,
+                    "valid_targets": valid_targets,
+                    "valid": False
+                }
+            )
         return fallback
 
     def fallback_suggestion(self, valid_targets):
@@ -104,5 +138,3 @@ class GPTInteraction:
             f"Player {target}" in suggestion or suggestion.strip() == target
             for target in valid_targets
         )
-
-

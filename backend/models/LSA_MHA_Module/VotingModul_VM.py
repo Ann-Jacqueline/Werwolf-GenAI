@@ -135,7 +135,7 @@ class VotingModule:
             return eliminated_player
 
         except Exception as e:
-
+            self.logger.error(f"Error during day_phase: {e}")
             print(f"Error encountered during day_phase: {e}")
             return "No Elimination"
 
@@ -206,6 +206,3 @@ class VotingModule:
 
         print("No consensus reached. No player was eliminated.")
         return "No Elimination"
-
-
-

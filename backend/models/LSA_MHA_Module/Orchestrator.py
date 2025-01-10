@@ -1,45 +1,53 @@
-import sys
-from io import StringIO
 import logging
-from .GameStateModul_GS import GameState
-from .PromptBuilder_PB import PromptBuilder
-from .ReflectionModul_RM import Reflection
-from .GPTInteractionModul_GPT import GPTInteraction
-from .VotingModul_VM import VotingModule
-from .ModeratorModul_MM import Moderator
-from .GlobalHistoryModul_GH import GlobalHistoryModel
-from .ConsensusCheckerModul_CC import ConsensusChecker
+from GameStateModul_GS import GameState
+from PromptBuilder_PB import PromptBuilder
+from ReflectionModul_RM import Reflection
+from GPTInteractionModul_GPT import GPTInteraction
+from VotingModul_VM import VotingModule
+from ModeratorModul_MM import Moderator
+from GlobalHistoryModul_GH import GlobalHistoryModel
+from ConsensusCheckerModul_CC import ConsensusChecker
+from io import StringIO
+
 
 class Orchestrator:
-    def __init__(self):
-        # Redirect stdout to capture terminal outputs
-        self.terminal_output = StringIO()
-        sys.stdout = self.terminal_output
+    """
+    Orchestrator-Modul: Koordiniert die gesamte Spielmechanik und ruft die entsprechenden Module auf.
+    """
 
-        # Main logger for detailed logs
-        self.logger = logging.getLogger("main_logger")
-        self.logger.setLevel(logging.INFO)
+    def __init__(self):
+        '''
+         # Logging initialisieren
+        logging.basicConfig(
+            filename="game_log.txt",
+            level=logging.INFO,
+            format="%(asctime)s - %(levelname)s - %(message)s"
+        )
+        '''
+
+        self.logger = logging.getLogger(__name__)
+
+        # Global history initialization
+        self.global_history = GlobalHistoryModel(self.logger)
+
+        # Logging initialisieren
+        self.log_stream = StringIO()  # Puffer für Logs
         log_formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
 
-        # File handler for detailed logs
+        # File handler (für game_log.txt)
         file_handler = logging.FileHandler("game_log.txt")
         file_handler.setFormatter(log_formatter)
-        self.logger.addHandler(file_handler)
 
-        # Stream handler for in-memory logs
-        stream_handler = logging.StreamHandler(self.terminal_output)
+        # Stream handler (für den Puffer)
+        stream_handler = logging.StreamHandler(self.log_stream)
         stream_handler.setFormatter(log_formatter)
+
+        self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(logging.INFO)
+        self.logger.addHandler(file_handler)
         self.logger.addHandler(stream_handler)
 
-        # Stripped logger for frontend (simplified logs)
-        self.stripped_logger = logging.getLogger("stripped_logger")
-        self.stripped_logger.setLevel(logging.INFO)
-        stripped_file_handler = logging.FileHandler("stripped_game_log.txt")
-        stripped_file_handler.setFormatter(logging.Formatter("%(message)s"))  # Simplified format
-        self.stripped_logger.addHandler(stripped_file_handler)
-
-        # Module initializations
-        self.global_history = GlobalHistoryModel(self.logger)
+        # Module initialisieren
         self.game_state = GameState()
         self.prompt_builder = PromptBuilder(global_history=self.global_history)
         self.reflection = Reflection(self.game_state.to_dict())
@@ -50,6 +58,7 @@ class Orchestrator:
             prompt_builder=self.prompt_builder,
             logger=self.logger
         )
+        self.global_history = GlobalHistoryModel(self.logger)
         self.voting = VotingModule(
             self.game_state,
             self.prompt_builder,
@@ -62,13 +71,7 @@ class Orchestrator:
         )
 
         self.round_number = 1
-        self.phase = "night"  # Starting phase
-
-    def log_gpt_response(self, response):
-        """
-        Logs only the clean GPT response.
-        """
-        self.logger.info(response)
+        self.phase = "night"  # Startphase
 
     def initialize_game(self):
         """
@@ -84,14 +87,6 @@ class Orchestrator:
             "game_initialized",
             {"players": player_ids, "strategies": strategies}
         )
-
-    def log_to_terminal(self, message):
-        """
-        Prints a message to the terminal (captured in the buffer).
-        """
-        print(message)
-        self.logger.info(message)  # Log to the main logger
-        self.stripped_logger.info(message)  # Log stripped version for frontend
 
     def handle_phase(self):
         """
