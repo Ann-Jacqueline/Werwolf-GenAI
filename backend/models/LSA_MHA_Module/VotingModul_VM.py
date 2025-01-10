@@ -1,5 +1,4 @@
 import time
-import random
 import logging
 
 class VotingModule:
@@ -82,17 +81,19 @@ class VotingModule:
                 print(f"Day phase started for Round {round_number}. No player was eliminated during the night.")
                 self.moderator.announce_elimination(None, None)
 
-            # Activate all players for discussion
+            # Activate all players for discussion, including the human player
             for player in self.game_state.get_remaining_players():
                 self.game_state.activate_player(player)
                 if player == "Human":
-                    self.game_state.deactivate_player(player)
+                    self.game_state.players[player]["awake"] = True
+                self.game_state.players[player]["remaining_players"] = [
+                    p for p in self.game_state.get_remaining_players() if p != player
+                ]
 
-            # Discussion phase
             discussion_ongoing = True
             while discussion_ongoing:
                 start_time = time.time()
-                while time.time() - start_time < 180:  # 3-minute timer
+                while time.time() - start_time < 60:  # 1-minute timer
                     human_input = input("Human Player: ").strip()
                     if human_input:
                         self.game_state.add_to_conversation_log("Human", human_input)
@@ -101,56 +102,46 @@ class VotingModule:
                     for player in self.game_state.get_remaining_players():
                         if player == "Human":
                             continue
-                        # Generate prompt for GPT
                         prompt = self.prompt_builder.build_day_prompt(
-                            player=player,
+                            player_id=player,
                             round_number=round_number,
-                            last_statement=self.game_state.get_last_statement(player),
-                            conversation_log=self.game_state.get_conversation_log(player),
-                            role_strategy=self.reflection.get_strategy(
-                                role=self.game_state.get_role(player),
-                                phase="day"
-                            ),
-                            remaining_players=self.game_state.players[player]['remaining_players']
+                            game_state=self.game_state
                         )
-
-                        print(f"Prompt for Player {player}:\n{prompt}")  # Debugging: Print the generated prompt
-
-                        # Get suggestion from GPT
                         suggestion = self.gpt_client.get_suggestion(prompt)
-                        print(f"GPT Suggestion for Player {player}: {suggestion}")  # Debugging: Print GPT suggestion
+                        print(f"GPT Suggestion for Player {player}: {suggestion}")
                         self.game_state.add_to_conversation_log(player, suggestion)
 
-                        # Display current game state after every GPT output
-                        self.game_state.display_game_state()
+                while True:
+                    user_choice = input("Continue discussion or vote? (continue/vote): ").lower().strip()
+                    if user_choice == "vote":
+                        discussion_ongoing = False
+                        break
+                    elif user_choice == "continue":
+                        print("Discussion phase will continue.")
+                        break
+                    else:
+                        print("Invalid input. Please enter 'continue' or 'vote'.")
 
-                # Moderator intervention after the timer ends
-                user_choice = input("Continue discussion or vote? (continue/vote): ").lower()
-                if user_choice == "vote":
-                    discussion_ongoing = False
-                elif user_choice == "continue":
-                    print("Discussion phase will continue.")
-                else:
-                    print("Invalid input. Assuming discussion will continue.")
-
-            # Voting phase
             eliminated_player = self.vote_phase(round_number)
             if not eliminated_player:
                 eliminated_player = "No Elimination"
                 print("No player was eliminated in the voting phase.")
             else:
                 print(f"Player {eliminated_player} eliminated in the voting phase.")
-
+                ready = input("\nAre you ready to continue to the next round? (yes/no): ").strip().lower()
+                if ready != "yes":
+                    print("Pausing until you're ready...")
+                    input("Press Enter when ready to continue.")
             return eliminated_player
 
         except Exception as e:
-            self.logger.error(f"Error during day_phase: {e}")
+
             print(f"Error encountered during day_phase: {e}")
             return "No Elimination"
 
     def vote_phase(self, round_number: int) -> str:
         """
-        Facilitates the voting phase and determines the player to be eliminated.
+        Facilitates the voting phase and determines the eliminated player.
 
         Args:
             round_number (int): The current round number.
@@ -159,71 +150,62 @@ class VotingModule:
             str: The ID of the eliminated player or "No Elimination".
         """
         print(f"Voting phase started for Round {round_number}.")
-        votes = {}
-        human_player = "Human"
+        valid_targets = [target for target in self.game_state.get_remaining_players() if target != "Human"]
+        human_targets = valid_targets.copy()
 
-        for player in self.game_state.get_active_players():
-            if player != human_player:
-                valid_targets = self.game_state.get_valid_targets(player)
-                prompt = self.prompt_builder.build_vote_prompt(
+        conversation_log = self.game_state.global_conversation_log
+
+        # Collect votes from agents
+        for player in self.game_state.get_remaining_players():
+            if player != "Human":
+                prompt = self.prompt_builder.build_agent_vote_prompt(
                     player=player,
                     role=self.game_state.get_role(player),
                     round_number=round_number,
                     remaining_players=valid_targets
                 )
-                vote = self.gpt_client.get_suggestion(prompt, valid_targets)
-                votes[player] = vote
-                print(f"{player} votes to eliminate: {vote}")
+                vote = self.gpt_client.get_suggestion(prompt)
+                print(f"GPT Suggestion for {player}: {vote}")
+                self.game_state.add_to_conversation_log(player, f"{player} votes for {vote}")
 
-        while True:
-            valid_targets = self.game_state.get_valid_targets(human_player)
-            print(f"Valid targets: {valid_targets}")
-            human_vote = input("Human Player, cast your vote: ").strip()
-            if human_vote in valid_targets:
-                votes[human_player] = human_vote
-                break
-            print("Invalid vote. Please choose a valid target.")
-
-        eliminated_player = self.resolve_votes(votes)
-        if not eliminated_player:
-            eliminated_player = "No Elimination"
+        # Collect the human player's vote
+        print("Human Player, cast your vote!")
+        human_vote = input(f"Choose from {', '.join(human_targets)}: ").strip()
+        if human_vote in human_targets:
+            self.game_state.add_to_conversation_log("Human", f"Human Player votes for {human_vote}")
         else:
-            print(f"Player {eliminated_player} eliminated.")
-            self.global_history.record_event("elimination", {"player": eliminated_player, "phase": "day"})
+            print("Invalid vote. Defaulting to 'No Elimination'.")
+            return "No Elimination"
 
-        return eliminated_player
+        # Analyze votes and determine the eliminated player
+        prompt = self.prompt_builder.build_vote_analysis_prompt(
+            conversation_log=conversation_log,
+            valid_targets=valid_targets,
+            game_state=self.game_state
+        )
+        gpt_response = self.gpt_client.get_suggestion(prompt)
+        print(f"GPT resolved votes: {gpt_response}")
 
-    def fallback_elimination(self) -> str:
-        valid_targets = self.game_state.get_valid_targets("Human")
-        return random.choice(valid_targets) if valid_targets else "No valid players."
+        if "Consensus reached on Player" in gpt_response:
+            eliminated_player = gpt_response.split("Player")[-1].strip()
+            print(f"Player {eliminated_player} eliminated in the voting phase.")
 
-    def resolve_votes(self, votes: dict) -> str:
-        """
-        Resolves votes and determines the eliminated player.
+            # Finalize elimination and update game state
+            self.game_state.finalize_elimination(eliminated_player)
 
-        Args:
-            votes (dict): A dictionary of votes where keys are players and values are vote counts.
+            # Update `remaining_players` for all active players
+            for player_id, state in self.game_state.players.items():
+                if state["remaining"]:
+                    state["remaining_players"] = [
+                        p for p in self.game_state.get_remaining_players() if p != player_id
+                    ]
 
-        Returns:
-            str: The ID of the eliminated player.
-        """
-        if not votes:
-            print("No votes to resolve. Returning a fallback elimination.")
-            return self.fallback_elimination()
+            # Confirm updates in game state
+            self.game_state.display_game_state()
+            return eliminated_player
 
-        # Count the votes
-        vote_counts = {}
-        for vote in votes.values():
-            vote_counts[vote] = vote_counts.get(vote, 0) + 1
+        print("No consensus reached. No player was eliminated.")
+        return "No Elimination"
 
-        # Find the player(s) with the highest vote count
-        max_votes = max(vote_counts.values(), default=0)
-        candidates = [player for player, count in vote_counts.items() if count == max_votes]
 
-        if len(candidates) == 1:
-            return candidates[0]  # Clear majority, return the single candidate
-
-        # Handle ties
-        print(f"Tie detected among: {candidates}. Selecting randomly.")
-        return random.choice(candidates)
 

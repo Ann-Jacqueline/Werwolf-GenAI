@@ -30,7 +30,9 @@ class Reflection:
                 "default": "Focus on gathering information and identifying suspicious behavior."
             },
             "werewolf": {
-                "default": "Deflect suspicion, manipulate discussions, and work with your ally to eliminate threats."
+                "default": "Deflect suspicion, manipulate discussions, and work with your ally to eliminate threats. "
+                           "Never accuse your teammate and if they get accused try to deflect the spotlight from them "
+                           "and target another player. The survival of your werewolf teammates insures your game victory."
             },
             "seer": {
                 "default": "Provide subtle hints about suspicions without revealing your role prematurely.",
@@ -50,7 +52,9 @@ class Reflection:
         """
         return {
             "villager": "Focus on gathering information and identifying suspicious behavior.",
-            "werewolf": "Deflect suspicion, manipulate discussions, and work with your ally to eliminate threats.",
+            "werewolf": "Deflect suspicion, manipulate discussions, and work with your ally to eliminate threats. "
+                           "Never accuse your teammate and if they get accused try to deflect the spotlight from them "
+                           "and target another player. The survival of your werewolf teammates insures your game victory.",
             "seer": "Provide subtle hints about suspicions without revealing your role prematurely."
         }
 

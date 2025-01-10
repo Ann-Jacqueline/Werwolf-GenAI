@@ -51,34 +51,54 @@ class PromptBuilder:
             5. Speak in the first person so ("I") and address your teammate personally with ("you")
             """
 
-    def build_day_prompt(self, player, round_number, last_statement, conversation_log, role_strategy, remaining_players):
-        global_announcements = self.global_history.get_recent_announcements() if self.global_history else []
-        combined_log = global_announcements + conversation_log
+    def build_day_prompt(self, player_id, round_number, game_state):
+        """
+        Builds the prompt for the day phase of the game for a specific player.
+
+        Args:
+            player_id (str): The player for whom the prompt is built.
+            round_number (int): The current round number.
+            game_state (GameState): The game state instance containing all player data.
+
+        Returns:
+            str: A structured prompt for GPT.
+        """
+        player_state = game_state.players[player_id]
+        discussion_log = "\n".join(
+            [f"{speaker}: {statement}" for speaker, statement in game_state.global_conversation_log[-10:]]
+        )  # Use the last 10 entries for context
 
         return f"""
-            === DAY PHASE (Round {round_number}) ===
-            Player {player}, align with your strategy as a {role_strategy}.
+        === DAY PHASE (Round {round_number}) ===
+        Player {player_id}, you are a {player_state["role"]} in the game of Werewolf. Your strategy is:
+        {player_state["base_strategy"]}
 
-            Last statement: '{last_statement or "None"}'
-            Discussion log:
-            {combined_log or "No discussions yet."}
+        Here is your memory; it is your individual game state:
+        --- Player State ---
+        Role: {player_state["role"]}
+        Awake: {'Yes' if player_state["awake"] else 'No'}
+        Remaining: {'Yes' if player_state["remaining"] else 'No'}
+        Remaining Players: {', '.join(player_state["remaining_players"])}
+        Last Statement: '{player_state["last_statement"] or "None"}'
 
-            Active players: {', '.join(remaining_players + ['Human Player'])}
+        Here is what has been said so far:
+        --- Discussion Log ---
+        {discussion_log}
 
-            **Guidelines:**
-            1. Respond concisely and reference prior statements from the log.
-            2. React emotionally and offended if accused. Justify yourself persuasively and attempt to shift suspicion to others.
-            3. Recognize when players try to deflect suspicion and address it based on your strategy.
-            4. Suggest a target for elimination with a brief justification, swaying the conversation to align with your strategy.
-            5. Respond only in one sentence!
+        **Guidelines:**
+        1. Respond directly to the Human's latest statement if relevant.
+        2. Reference the discussion log and align your response with your strategy.
+        3. React emotionally and persuasively if accused, and attempt to shift suspicion to others.
+        4. Suggest a target for elimination with a brief, logical justification based on your role and strategy.
+        5. Respond concisely in one sentence!
 
-            Example: "Player B appears suspicious based on their earlier statements. I recommend targeting them."
+        Example: "Player B appears suspicious based on their earlier statements. I recommend targeting them."
         """
 
     @staticmethod
-    def build_vote_prompt(player, role, round_number, remaining_players):
+    def build_agent_vote_prompt(player, role, round_number, remaining_players):
         """
-        Generates a prompt for the voting phase to cast an elimination vote.
+        Generates a prompt for an agent to cast a vote during the voting phase.
 
         Args:
             player (str): Player ID.
@@ -87,7 +107,7 @@ class PromptBuilder:
             remaining_players (list): List of remaining players.
 
         Returns:
-            str: Formatted voting phase prompt.
+            str: Formatted voting phase prompt for agents.
         """
         if not remaining_players:
             raise ValueError("No valid targets available for voting.")
@@ -103,35 +123,92 @@ class PromptBuilder:
         Example: "Player A" 
         """
 
+    @staticmethod
+    def build_vote_analysis_prompt(conversation_log, valid_targets, game_state):
+        """
+        Builds a prompt for vote analysis to determine the eliminated player.
 
-    def build_consensus_prompt(self, conversation_log, vote_counts):
+        Args:
+            conversation_log (list): The conversation log for context.
+            valid_targets (list): List of valid targets for elimination.
+            game_state (GameState): The current game state.
+
+        Returns:
+            str: A structured prompt for GPT to analyze votes and determine the eliminated player.
+        """
+        log_entries = "\n".join([f"{speaker}: {statement}" for speaker, statement in conversation_log])
+        roles_info = "\n".join(
+            [f"Player {player}: {game_state.get_role(player)}" for player in valid_targets]
+        )
+
+        return f"""
+        === VOTE ANALYSIS ===
+        Analyze the voting process to determine the eliminated player.
+
+        --- Current Conversation Log ---
+        {log_entries}
+
+        --- Valid Targets for Elimination ---
+        {', '.join(valid_targets)}
+
+        --- Player Roles ---
+        {roles_info}
+
+        **Task:**
+        1. Review the conversation log to identify votes cast by each player.
+        2. Count the votes for each valid target.
+        3. Determine the player with the most votes.
+        4. If there is a tie, randomly select one of the tied players as the eliminated player.
+        5. Only consider targets listed above as valid for elimination.
+
+        Example Output:
+        Consensus reached on Player B
+        """
+
+    def build_consensus_prompt(self, conversation_log, valid_targets):
         """
         Builds a prompt for consensus analysis.
 
         Args:
             conversation_log (list): Global conversation log.
-            vote_counts (dict): Current vote tallies.
+            valid_targets (list): List of valid targets for elimination.
 
         Returns:
             str: A formatted prompt for GPT to analyze consensus.
         """
+        # Format the conversation log
         log_entries = "\n".join([f"{speaker}: {statement}" for speaker, statement in conversation_log])
-        vote_entries = "\n".join([f"Player {player}: {count} vote(s)" for player, count in vote_counts.items()])
+
+        # Format the list of valid targets
+        target_list = ", ".join(f"Player {target}" for target in valid_targets)
 
         return f"""
         === CONSENSUS ANALYSIS ===
-        Analyze the following conversation log to determine if consensus is reached:
+        You are analyzing the game state to determine if the players have reached a consensus on who to target.
 
         --- Current Conversation Log ---
         {log_entries}
 
-        --- Current Vote Tallies ---
-        {vote_entries}
+        --- Valid Targets for Elimination ---
+        {target_list}
+
+        **Task:**
+        1. Review the conversation log carefully to identify mentions of potential elimination targets.
+        2. Identify agreement statements (e.g., "I agree with Player X about targeting Player Y").
+        3. Determine if a consensus exists based on the players consistently agreeing on one target.
+        4. Only consider targets listed above as valid for elimination.
+        5. If multiple players align on the same valid target, declare "Consensus reached on Player X" (replace X with the player ID).
+        6. If no agreement exists or the discussion is split between multiple targets, declare "No consensus reached."
+
+        **Examples:**
+        - If Player B suggests targeting Player D, and Player C explicitly agrees, the output should be:
+          "Consensus reached on Player D."
+        - If Player B suggests Player D, and Player C disagrees or suggests another target, the output should be:
+          "No consensus reached."
 
         **Output Format:**
-        1. Final consensus status: "Consensus reached on Player X" or "No consensus reached."
+        Final consensus status: "Consensus reached on Player X" or "No consensus reached."
 
-        Example:
-        Consensus reached on Player A
+        Example Output:
+        Consensus reached on Player D
         """
-

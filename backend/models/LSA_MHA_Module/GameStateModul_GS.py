@@ -24,7 +24,7 @@ class GameState:
                 "role": role,
                 "awake": False,
                 "remaining": True,
-                "remaining_players": player_ids[:],
+                "remaining_players": player_ids[:] + [human_player],
                 "conversation_log": [],
                 "base_strategy": strategies.get(role, "Default strategy."),
                 "last_statement": None
@@ -145,13 +145,20 @@ class GameState:
     def finalize_elimination(self, player_id):
         """
         Marks a player as eliminated and updates the game state.
+
+        Args:
+            player_id (str): The ID of the player to eliminate.
         """
         if player_id in self.players:
             self.players[player_id]['remaining'] = False
             self.players[player_id]['awake'] = False
+
+            # Update `remaining_players` for all players
             for state in self.players.values():
                 if player_id in state['remaining_players']:
                     state['remaining_players'].remove(player_id)
+
+            # Log elimination
             elimination_statement = f"Player {player_id} has been eliminated."
             self.logger.info(elimination_statement)
             print(elimination_statement)

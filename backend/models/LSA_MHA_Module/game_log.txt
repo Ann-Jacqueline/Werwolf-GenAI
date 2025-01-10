@@ -1,0 +1,48 @@
+2025-01-10 13:56:12,618 - INFO - Game started!
+2025-01-10 13:56:12,618 - INFO - Game initialized with roles and strategies.
+2025-01-10 13:56:12,618 - INFO - Event recorded: {'timestamp': '2025-01-10T13:56:12.618896', 'event_type': 'game_initialized', 'details': {'players': ['A', 'B', 'C', 'D', 'E'], 'strategies': {'villager': 'Focus on gathering information and identifying suspicious behavior.', 'werewolf': 'Deflect suspicion, manipulate discussions, and work with your ally to eliminate threats. Never accuse your teammate and if they get accused try to deflect the spotlight from them and target another player. The survival of your werewolf teammates insures your game victory.', 'seer': 'Provide subtle hints about suspicions without revealing your role prematurely.'}}, 'metadata': {}}
+2025-01-10 13:56:12,619 - INFO - Starting Night Phase for Round 1.
+2025-01-10 13:56:12,619 - INFO - Starting Night Phase for Round 1.
+2025-01-10 13:56:14,089 - INFO - I'm choosing to eliminate player C because it might reduce the risk of targeting the seer early on.
+2025-01-10 13:56:14,089 - WARNING - Invalid suggestion: I'm choosing to eliminate player C because it might reduce the risk of targeting the seer early on.
+2025-01-10 13:56:16,233 - INFO - I suggest we randomly eliminate Player D to avoid drawing attention to any logical patterns yet.
+2025-01-10 13:56:20,723 - INFO - I agree with your suggestion to eliminate Player D tonight because it will create a random pattern that can confuse the villagers about our identities.
+2025-01-10 13:56:20,723 - INFO - Generated Consensus Prompt:
+
+        === CONSENSUS ANALYSIS ===
+        You are analyzing the game state to determine if the players have reached a consensus on who to target.
+
+        --- Current Conversation Log ---
+        B: I suggest we randomly eliminate Player D to avoid drawing attention to any logical patterns yet.
+E: I agree with your suggestion to eliminate Player D tonight because it will create a random pattern that can confuse the villagers about our identities.
+
+        --- Valid Targets for Elimination ---
+        Player A, Player C, Player D, Player Human
+
+        **Task:**
+        1. Review the conversation log carefully to identify mentions of potential elimination targets.
+        2. Identify agreement statements (e.g., "I agree with Player X about targeting Player Y").
+        3. Determine if a consensus exists based on the players consistently agreeing on one target.
+        4. Only consider targets listed above as valid for elimination.
+        5. If multiple players align on the same valid target, declare "Consensus reached on Player X" (replace X with the player ID).
+        6. If no agreement exists or the discussion is split between multiple targets, declare "No consensus reached."
+
+        **Examples:**
+        - If Player B suggests targeting Player D, and Player C explicitly agrees, the output should be:
+          "Consensus reached on Player D."
+        - If Player B suggests Player D, and Player C disagrees or suggests another target, the output should be:
+          "No consensus reached."
+
+        **Output Format:**
+        Final consensus status: "Consensus reached on Player X" or "No consensus reached."
+
+        Example Output:
+        Consensus reached on Player D
+        
+2025-01-10 13:56:21,519 - INFO - Final consensus status: Consensus reached on Player D
+2025-01-10 13:56:21,520 - INFO - GPT response: Final consensus status: Consensus reached on Player D
+2025-01-10 13:56:21,520 - WARNING - Global history not properly initialized. Skipping log update.
+2025-01-10 13:56:21,520 - INFO - During the night, Player D (seer) was eliminated by the werewolves.
+2025-01-10 13:56:21,520 - INFO - Event recorded: {'timestamp': '2025-01-10T13:56:21.520396', 'event_type': 'elimination', 'details': {'player': 'D', 'phase': 'night'}, 'metadata': {}}
+2025-01-10 13:56:21,520 - INFO - During the night, Player D (seer) was eliminated by the werewolves. Begin the day discussions.
+2025-01-10 13:56:21,520 - INFO - During the night, Player D (seer) was eliminated by the werewolves. Begin the day discussions.
