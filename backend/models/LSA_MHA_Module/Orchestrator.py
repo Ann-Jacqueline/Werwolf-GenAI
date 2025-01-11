@@ -1,12 +1,12 @@
 import logging
-from GameStateModul_GS import GameState
-from PromptBuilder_PB import PromptBuilder
-from ReflectionModul_RM import Reflection
-from GPTInteractionModul_GPT import GPTInteraction
-from VotingModul_VM import VotingModule
-from ModeratorModul_MM import Moderator
-from GlobalHistoryModul_GH import GlobalHistoryModel
-from ConsensusCheckerModul_CC import ConsensusChecker
+from .GameStateModul_GS import GameState
+from .PromptBuilder_PB import PromptBuilder
+from .ReflectionModul_RM import Reflection
+from .GPTInteractionModul_GPT import GPTInteraction
+from .VotingModul_VM import VotingModule
+from .ModeratorModul_MM import Moderator
+from .GlobalHistoryModul_GH import GlobalHistoryModel
+from .ConsensusCheckerModul_CC import ConsensusChecker
 from io import StringIO
 
 
