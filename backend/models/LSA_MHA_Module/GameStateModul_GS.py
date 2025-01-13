@@ -173,11 +173,6 @@ class GameState:
             self.logger.warning(f"Player {player_id} not found in game state.")  # #UPDATE!!!
             return "Unknown role"
 
-        # Check if the eliminated player is the Human
-        if player_id == "Human":
-            print("GAME OVER! You have been eliminated. Better luck next time :)")
-            exit(0)  # Exit the program
-
         # Get the player's role
         role = self.players[player_id]["role"]
 
@@ -191,10 +186,10 @@ class GameState:
                 state["remaining_players"].remove(player_id)
 
         # Log elimination
-        elimination_statement = f"Player {player_id} has been eliminated."
-        self.logger.info(elimination_statement)
-        print(elimination_statement)
-
+        if player_id == "Human":
+            print("You have been eliminated. You are now a spectator.")
+        else:
+            print(f"Player {player_id} ({role}) has been eliminated.")
 
         return role
 

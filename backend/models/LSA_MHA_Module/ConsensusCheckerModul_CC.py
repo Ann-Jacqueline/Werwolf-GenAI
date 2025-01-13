@@ -75,14 +75,8 @@ class ConsensusChecker:
                 self.logger.warning("No conversation log available for consensus analysis.")
                 return None
 
-            filtered_log = [
-                (speaker, statement.strip())
-                for speaker, statement in conversation_log
-                if game_state.players.get(speaker, {}).get("remaining", False)
-            ]
-
             # Build and send GPT prompt
-            prompt = self.prompt_builder.build_consensus_prompt(filtered_log, valid_targets, game_state)
+            prompt = self.prompt_builder.build_consensus_prompt(conversation_log, valid_targets, game_state)
 
             # Log the consensus prompt in the game log
             self.logger.info(f"Generated Consensus Prompt:\n{prompt}")
@@ -95,16 +89,16 @@ class ConsensusChecker:
             # Parse GPT response for consensus
             if "Consensus reached on Player" in response:
                 consensus_player = response.split("Player")[-1].strip().replace('"', '').strip()
-                if consensus_player in valid_targets:
+                if consensus_player in valid_targets and game_state.players[consensus_player]["remaining"]:
                     return consensus_player
 
                 # Retrieve the role of the eliminated player
                 role = game_state.get_role(consensus_player) or "Unknown role"
 
                 # Announce the elimination
-                announcement = f"During the night, Player {consensus_player} ({role}) was eliminated by the werewolves."
-                self._log_announcement(announcement)
-                self.logger.info(announcement)
+                announcement_night = f"During the night, Player {consensus_player} ({role}) was eliminated by the werewolves."
+                self._log_announcement(announcement_night)
+                self.logger.info(announcement_night)
 
                 return consensus_player
 

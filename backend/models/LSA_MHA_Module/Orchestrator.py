@@ -60,13 +60,14 @@ class Orchestrator:
         )
         self.global_history = GlobalHistoryModel(self.logger)
         self.voting = VotingModule(
-            self.game_state,
-            self.prompt_builder,
-            self.gpt_interaction,
-            self.consensus_checker,
-            self.moderator,
-            self.global_history,
-            self.reflection,
+            orchestrator=self,
+            game_state=self.game_state,
+            prompt_builder=self.prompt_builder,
+            gpt_client=self.gpt_interaction,
+            consensus_checker=self.consensus_checker,
+            moderator=self.moderator,
+            global_history=self.global_history,
+            reflection=self.reflection,
             logger=self.logger
         )
 
@@ -169,7 +170,7 @@ class Orchestrator:
             """
             Logik für die Interaktion mit dem Human Player.
             """
-            human_player = self.game_state.get_human_player()
+            human_player = self.game_state.get_players_with_role()
             self.logger.info(f"Human Player {human_player} is up. Awaiting their argument.")
 
             # Aufforderung an das Frontend, Argument zu liefern
@@ -177,6 +178,26 @@ class Orchestrator:
                 "human_turn",
                 {"message": f"Human Player {human_player}, please provide your argument."}
             )
+
+    def check_game_end_conditions(self):
+        """
+        Checks if the game has reached an end condition.
+        Ends the game if:
+        - All werewolves are eliminated (Villagers win).
+        - Werewolves equal or outnumber non-werewolves (Werewolves win).
+        """
+        remaining_players = self.game_state.get_remaining_players()
+        werewolves = self.game_state.get_players_with_role("werewolf")
+        villagers = [p for p in remaining_players if p not in werewolves]
+
+        if len(werewolves) == 1:
+            print("🎉 Congratulations Villagers! You have eliminated all the werewolves and kept your village safe!")
+            print("GAME OVER. Villagers win!")
+            exit(0)  # End the game
+        elif len(villagers) == 1:
+            print("😈 The Werewolves have taken over the village! All hope is lost!")
+            print("GAME OVER. Werewolves win!")
+            exit(0)  # End the game
 
 
 # Beispielaufruf
