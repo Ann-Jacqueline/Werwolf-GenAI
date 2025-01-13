@@ -27,7 +27,7 @@ class Reflection:
         """
         strategies = {
             "villager": {
-                "default": "Focus on gathering information and identifying suspicious behavior."
+                "default": "Focus on gathering information and identifying suspicious behavior. You want to identify and eliminate the werewolves in the game."
             },
             "werewolf": {
                 "default": "Deflect suspicion, manipulate discussions, and work with your ally to eliminate threats. "

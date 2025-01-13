@@ -1,3 +1,5 @@
+import sys
+from io import StringIO
 import logging
 from GameStateModul_GS import GameState
 from PromptBuilder_PB import PromptBuilder
@@ -7,8 +9,6 @@ from VotingModul_VM import VotingModule
 from ModeratorModul_MM import Moderator
 from GlobalHistoryModul_GH import GlobalHistoryModel
 from ConsensusCheckerModul_CC import ConsensusChecker
-from io import StringIO
-
 
 class Orchestrator:
     """

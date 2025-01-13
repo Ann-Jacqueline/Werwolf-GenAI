@@ -37,14 +37,15 @@ class Moderator:
         role_text = f"({role})" if role else "(Unknown role)"
         announcement = (
             f"During the night, Player {eliminated_player} {role_text} was eliminated by the werewolves. "
-            f"Begin the {next_phase} discussions."
+            f"Begin the {next_phase} discussions. Human, who would you eliminate next?"
         )
-        print(announcement)
         self.logger.info(announcement)
 
         if self.global_history:
             self.global_history.record_event("elimination", {"player": eliminated_player, "role": role})
             self.global_history.add_to_log("Moderator", announcement)
+
+        return announcement
 
     def comment_on_discussion(self, conversation_log, human_player=None):
         """

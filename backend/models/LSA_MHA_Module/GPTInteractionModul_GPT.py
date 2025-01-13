@@ -28,13 +28,15 @@ class GPTInteraction:
         self.max_attempts = max_attempts
         self.global_history = global_history
 
-    def get_suggestion(self, prompt, valid_targets=None, prompt_type="general"):
+    def get_suggestion(self, prompt, valid_targets, game_state, current_player, prompt_type="general"):
         """
         Requests a suggestion from GPT based on the given prompt.
 
         Args:
             prompt (str): The input prompt for GPT.
             valid_targets (list, optional): A list of valid targets for validation.
+            game_state (GameState): The game state instance for fetching valid targets.
+            current_player (str): The player making the request.
             prompt_type (str): Type of the prompt for logging purposes.
 
         Returns:
@@ -45,6 +47,7 @@ class GPTInteraction:
 
         while attempts < self.max_attempts:
             try:
+                valid_targets = game_state.get_valid_targets(current_player)
                 # Send request to GPT
                 response = self.client.chat.completions.create(
                     model="gpt-4o",

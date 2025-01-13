@@ -10,6 +10,8 @@ class GameState:
     def __init__(self, logger=None):
         self.players = {}
         self.global_conversation_log = []
+        self.night_log = []  # Stores conversations during the night phase
+        self.day_log = []    # Stores conversations during the day phase
         self.logger = logger or logging.getLogger(__name__)
 
     def initialize_roles(self, player_ids, strategies, human_player="Human"):
@@ -24,7 +26,7 @@ class GameState:
                 "role": role,
                 "awake": False,
                 "remaining": True,
-                "remaining_players": player_ids[:] + [human_player],
+                "remaining_players": [p for p in player_ids + [human_player] if p != player_id],
                 "conversation_log": [],
                 "base_strategy": strategies.get(role, "Default strategy."),
                 "last_statement": None
@@ -34,7 +36,7 @@ class GameState:
             "role": "villager",
             "awake": False,
             "remaining": True,
-            "remaining_players": player_ids[:],
+            "remaining_players": [p for p in player_ids if p != human_player],
             "conversation_log": [],
             "base_strategy": "Analyze discussions and cast votes strategically.",
             "last_statement": None
@@ -114,22 +116,40 @@ class GameState:
         """
         return self.players.get(player_id, {}).get('last_statement')
 
-    def add_to_conversation_log(self, speaker, statement):
+    def add_to_conversation_log(self, speaker, statement, phase="day"):
         """
         Adds a statement to the global conversation log and updates player-specific logs
         for players who are awake.
+
+         Args:
+        speaker (str): The player making the statement.
+        statement (str): The statement to log.
+        phase (str): The current phase ("day" or "night").
         """
+        # Skip if the speaker is not awake or if the speaker is eliminated
+        if not self.players.get(speaker, {}).get("awake", False) or not self.players[speaker]["remaining"]:
+            self.logger.warning(f"Skipping log entry for inactive player: {speaker}")
+            return
+
         # Add to global log
         self.global_conversation_log.append((speaker, statement))
         self.logger.info(f"Global Log Update: {speaker}: {statement}")
 
-        # Add to individual player logs
+        # Add to phase-specific logs
+        if phase == "night" and self.players[speaker]["role"] == "werewolf":
+            self.night_log.append((speaker, statement))
+        elif phase == "day":
+            self.day_log.append((speaker, statement))
+
+        # Update individual player logs for awake players
         for player_id, state in self.players.items():
-            if state['awake']:
-                state['conversation_log'].append((speaker, statement))
+            if state["awake"]:  # Only awake players receive updates
+                if phase == "night" and state["role"] != "werewolf":
+                    continue  # Non-werewolves don't see night discussions
+                state["conversation_log"].append((speaker, statement))
                 if speaker == player_id:
-                    state['last_statement'] = statement
-                self.logger.info(f"Updated Player {player_id}'s log: {speaker}: {statement}")
+                    state["last_statement"] = statement
+        self.logger.info(f"Log updated for phase {phase}: {speaker} - {statement}")
 
     def display_game_state(self, exclude_global_log=False):
         """
@@ -149,19 +169,34 @@ class GameState:
         Args:
             player_id (str): The ID of the player to eliminate.
         """
-        if player_id in self.players:
-            self.players[player_id]['remaining'] = False
-            self.players[player_id]['awake'] = False
+        if player_id not in self.players:
+            self.logger.warning(f"Player {player_id} not found in game state.")  # #UPDATE!!!
+            return "Unknown role"
 
-            # Update `remaining_players` for all players
-            for state in self.players.values():
-                if player_id in state['remaining_players']:
-                    state['remaining_players'].remove(player_id)
+        # Check if the eliminated player is the Human
+        if player_id == "Human":
+            print("GAME OVER! You have been eliminated. Better luck next time :)")
+            exit(0)  # Exit the program
 
-            # Log elimination
-            elimination_statement = f"Player {player_id} has been eliminated."
-            self.logger.info(elimination_statement)
-            print(elimination_statement)
+        # Get the player's role
+        role = self.players[player_id]["role"]
+
+        # Mark the player as eliminated
+        self.players[player_id]['remaining'] = False
+        self.players[player_id]['awake'] = False
+
+        #Remove the eliminated player from all remaining_players lists
+        for state in self.players.values():
+            if player_id in state["remaining_players"]:
+                state["remaining_players"].remove(player_id)
+
+        # Log elimination
+        elimination_statement = f"Player {player_id} has been eliminated."
+        self.logger.info(elimination_statement)
+        print(elimination_statement)
+
+
+        return role
 
     def to_dict(self):
         """
