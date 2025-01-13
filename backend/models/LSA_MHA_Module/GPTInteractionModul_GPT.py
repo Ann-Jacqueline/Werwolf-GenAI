@@ -1,11 +1,11 @@
 import random
 import logging
-import openai
+import time
+from openai import OpenAI
 import os
 
 
 class GPTInteraction:
-
     """
     Handles interactions with the GPT model.
     """
@@ -20,15 +20,10 @@ class GPTInteraction:
             api_key: Optional API key for GPT interaction. Defaults to environment variable.
             global_history: GlobalHistoryModel instance for recording interactions. Optional.
         """
-        # Hole den API-Key aus der Umgebungsvariable
-        self.api_key = os.getenv("YOUR_API_KEY")
-
-        # Überprüfe, ob der Key gesetzt ist
+        self.api_key = api_key or os.getenv("YOUR_API_KEY")
         if not self.api_key:
-            raise ValueError("API key is not provided. Please set the environment variable 'YOUR_API_KEY'.")
-
-        # Setze den API-Key für die OpenAI-Bibliothek
-        openai.api_key = self.api_key
+            raise ValueError("API key is not provided.")
+        self.client = OpenAI(api_key=self.api_key)
         self.logger = logger or logging.getLogger(__name__)
         self.max_attempts = max_attempts
         self.global_history = global_history
