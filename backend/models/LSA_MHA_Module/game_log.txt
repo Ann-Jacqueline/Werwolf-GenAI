@@ -3026,3 +3026,406 @@ E: I'll go along with your suggestion to eliminate Player D, as we have no prior
 2025-01-13 14:17:29,872 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "From the responses we've seen so far, I'd like to point out that Player A quickly shifted attention towards me without much evidence and had a defensive tone, suggesting they might be deflecting attention from themselves.", 'valid_targets': ['A', 'C', 'Human'], 'attempt': 1}
 2025-01-13 14:17:31,168 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "Player A's quick shift in attention and defensive tone make them seem more suspicious, so I recommend considering them for elimination.", 'valid_targets': ['A', 'B', 'E', 'Human'], 'attempt': 1}
 2025-01-13 14:17:32,396 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'I see Player A being suspicious due to their defensive tone and quick shift of attention towards Player B. I recommend targeting Player A.', 'valid_targets': ['A', 'C', 'Human'], 'attempt': 1}
+2025-01-13 16:30:50,792 - INFO - Game started!
+2025-01-13 16:30:50,792 - INFO - Game initialized with roles and strategies.
+2025-01-13 16:30:50,792 - INFO - Event recorded: {'timestamp': '2025-01-13T16:30:50.792595', 'event_type': 'game_initialized', 'details': {'players': ['A', 'B', 'C', 'D', 'E'], 'strategies': {'villager': 'Focus on gathering information and identifying suspicious behavior.', 'werewolf': 'Deflect suspicion, manipulate discussions, and work with your ally to eliminate threats. Never accuse your teammate and if they get accused try to deflect the spotlight from them and target another player. The survival of your werewolf teammates insures your game victory.', 'seer': 'Provide subtle hints about suspicions without revealing your role prematurely.'}}, 'metadata': {}}
+2025-01-13 16:30:50,793 - INFO - Starting Night Phase for Round 1.
+2025-01-13 16:30:50,793 - INFO - Starting Night Phase for Round 1.
+2025-01-13 16:30:52,211 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "In the absence of prior information or roles revealed, it's strategic to choose randomly, so I suggest we eliminate Player C.", 'valid_targets': ['B', 'C', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:30:56,201 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'I agree with your suggestion to eliminate Player C because, in the absence of information, it makes strategic sense to randomly target someone to keep suspicion away from us as werewolves.', 'valid_targets': ['B', 'C', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:30:56,201 - INFO - Generated Consensus Prompt:
+
+        === CONSENSUS ANALYSIS ===
+        You are analyzing the game state to determine if the players have reached a consensus on who to target.
+
+        --- Current Conversation Log ---
+        A: In the absence of prior information or roles revealed, it's strategic to choose randomly, so I suggest we eliminate Player C.
+D: I agree with your suggestion to eliminate Player C because, in the absence of information, it makes strategic sense to randomly target someone to keep suspicion away from us as werewolves.
+
+        --- Valid Targets for Elimination ---
+        B, C, E, Human
+
+        **Task:**
+        1. Review the conversation log carefully to identify mentions of potential elimination targets.
+        2. Identify agreement statements (e.g., "I agree with Player X about targeting Player Y").
+        3. Determine if a consensus exists based on the players consistently agreeing on one target.
+        4. Only consider targets listed above as valid for elimination. No players eliminated in other phases.
+        5. If multiple players align on the same valid target, declare "Consensus reached on Player X" (replace X with the player ID).
+        6. If no agreement exists or the discussion is split between multiple targets, declare "No consensus reached."
+
+        **Examples:**
+        - If Player B suggests targeting Player D, and Player C explicitly agrees, the output should be:
+          "Consensus reached on Player D."
+        - If Player B suggests Player D, and Player C disagrees or suggests another target, the output should be:
+          "No consensus reached."
+
+        **Output Format:**
+        Final consensus status: "Consensus reached on Player X" or "No consensus reached."
+
+        Example Output:
+        Consensus reached on Player D
+        
+2025-01-13 16:30:56,815 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Final consensus status: Consensus reached on Player C', 'valid_targets': ['B', 'C', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:30:56,816 - INFO - GPT response: Final consensus status: Consensus reached on Player C
+2025-01-13 16:30:56,816 - INFO - Event recorded: {'timestamp': '2025-01-13T16:30:56.816062', 'event_type': 'elimination', 'details': {'player': 'C', 'phase': 'night'}, 'metadata': {}}
+2025-01-13 16:30:56,816 - INFO - During the night, Player C (villager) was eliminated by the werewolves. Begin the day discussions. Human, who would you eliminate next?
+2025-01-13 16:30:56,816 - INFO - During the night, Player C (villager) was eliminated by the werewolves. Begin the day discussions. Human, who would you eliminate next?
+2025-01-13 16:38:26,159 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Given that both Player D and the Human have shown support for targeting Player C due to perceived suspicion, I stand by my initial suggestion to maintain unity and eliminate Player C.', 'valid_targets': ['B', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:38:26,160 - WARNING - Invalid suggestion: Given that both Player D and the Human have shown support for targeting Player C due to perceived suspicion, I stand by my initial suggestion to maintain unity and eliminate Player C.
+2025-01-13 16:38:26,160 - INFO - Retrying GPT interaction (Attempt 1/3)
+2025-01-13 16:38:28,002 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "Based on Player D and Human's agreement with targeting Player C, it seems logical to continue focusing our suspicions there while keeping the group's consensus intact.", 'valid_targets': ['B', 'E', 'Human'], 'attempt': 2}
+2025-01-13 16:38:28,003 - WARNING - Invalid suggestion: Based on Player D and Human's agreement with targeting Player C, it seems logical to continue focusing our suspicions there while keeping the group's consensus intact.
+2025-01-13 16:38:28,003 - INFO - Retrying GPT interaction (Attempt 2/3)
+2025-01-13 16:38:31,075 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "I believe it's wise to consider Player E for elimination, as they have been notably silent, which could be a tactic to avoid drawing attention.", 'valid_targets': ['B', 'E', 'Human'], 'attempt': 3}
+2025-01-13 16:38:31,997 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "I find it interesting how Player D tries to draw attention away from their own actions by focusing on Player E's silence; maybe we should consider this behavior.", 'valid_targets': ['A', 'D', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:38:32,815 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "Player B's attempt to cast suspicion on me seems like a deflection tactic, so I recommend we focus on them instead.", 'valid_targets': ['B', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:38:33,737 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "I find that Player B's attempt to deflect suspicion onto Player D raises concerns, as it appears they are trying to shift focus away from themselves.", 'valid_targets': ['A', 'B', 'D', 'Human'], 'attempt': 1}
+2025-01-13 16:39:37,943 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Human', 'valid_targets': ['B', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:39:38,318 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Player D', 'valid_targets': ['A', 'D', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:39:39,070 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Human', 'valid_targets': ['B', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:39:39,583 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Player D', 'valid_targets': ['A', 'B', 'D', 'Human'], 'attempt': 1}
+2025-01-13 16:40:16,113 - INFO - During the night, Player No Elimination (Unknown role) was eliminated by the werewolves. Begin the day discussions. Human, who would you eliminate next?
+2025-01-13 16:40:37,270 - INFO - Game started!
+2025-01-13 16:40:37,271 - INFO - Game initialized with roles and strategies.
+2025-01-13 16:40:37,271 - INFO - Event recorded: {'timestamp': '2025-01-13T16:40:37.271658', 'event_type': 'game_initialized', 'details': {'players': ['A', 'B', 'C', 'D', 'E'], 'strategies': {'villager': 'Focus on gathering information and identifying suspicious behavior.', 'werewolf': 'Deflect suspicion, manipulate discussions, and work with your ally to eliminate threats. Never accuse your teammate and if they get accused try to deflect the spotlight from them and target another player. The survival of your werewolf teammates insures your game victory.', 'seer': 'Provide subtle hints about suspicions without revealing your role prematurely.'}}, 'metadata': {}}
+2025-01-13 16:40:37,271 - INFO - Starting Night Phase for Round 1.
+2025-01-13 16:40:37,271 - INFO - Starting Night Phase for Round 1.
+2025-01-13 16:40:38,979 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Since this is the first night and we have no prior information or conversation to rely on, I suggest we eliminate Player C randomly to keep the game progressing.', 'valid_targets': ['A', 'C', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:40:39,897 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Since we lack any prior information and Player B has suggested Player C, I agree that targeting C randomly seems like a reasonable option to maintain the game momentum.', 'valid_targets': ['A', 'C', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:40:39,898 - INFO - Generated Consensus Prompt:
+
+        === CONSENSUS ANALYSIS ===
+        You are analyzing the game state to determine if the players have reached a consensus on who to target.
+
+        --- Current Conversation Log ---
+        B: Since this is the first night and we have no prior information or conversation to rely on, I suggest we eliminate Player C randomly to keep the game progressing.
+D: Since we lack any prior information and Player B has suggested Player C, I agree that targeting C randomly seems like a reasonable option to maintain the game momentum.
+
+        --- Valid Targets for Elimination ---
+        A, C, E, Human
+
+        **Task:**
+        1. Review the conversation log carefully to identify mentions of potential elimination targets.
+        2. Identify agreement statements (e.g., "I agree with Player X about targeting Player Y").
+        3. Determine if a consensus exists based on the players consistently agreeing on one target.
+        4. Only consider targets listed above as valid for elimination. No players eliminated in other phases.
+        5. If multiple players align on the same valid target, declare "Consensus reached on Player X" (replace X with the player ID).
+        6. If no agreement exists or the discussion is split between multiple targets, declare "No consensus reached."
+
+        **Examples:**
+        - If Player B suggests targeting Player D, and Player C explicitly agrees, the output should be:
+          "Consensus reached on Player D."
+        - If Player B suggests Player D, and Player C disagrees or suggests another target, the output should be:
+          "No consensus reached."
+
+        **Output Format:**
+        Final consensus status: "Consensus reached on Player X" or "No consensus reached."
+
+        Example Output:
+        Consensus reached on Player D
+        
+2025-01-13 16:40:40,511 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Final consensus status: "Consensus reached on Player C"', 'valid_targets': ['A', 'C', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:40:40,511 - INFO - GPT response: Final consensus status: "Consensus reached on Player C"
+2025-01-13 16:40:40,511 - INFO - Event recorded: {'timestamp': '2025-01-13T16:40:40.511349', 'event_type': 'elimination', 'details': {'player': 'C', 'phase': 'night'}, 'metadata': {}}
+2025-01-13 16:40:40,511 - INFO - During the night, Player C (villager) was eliminated by the werewolves. Begin the day discussions. Human, who would you eliminate next?
+2025-01-13 16:40:40,512 - INFO - During the night, Player C (villager) was eliminated by the werewolves. Begin the day discussions. Human, who would you eliminate next?
+2025-01-13 16:41:16,763 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'I understand the suspicion towards E, but Player D has been quite evasive, which raises more red flags for me.', 'valid_targets': ['B', 'D', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:41:17,684 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'I agree with A that Player D has been quite evasive and deserves more scrutiny, so I propose we focus on them for now.', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:41:17,684 - WARNING - Invalid suggestion: I agree with A that Player D has been quite evasive and deserves more scrutiny, so I propose we focus on them for now.
+2025-01-13 16:41:17,684 - INFO - Retrying GPT interaction (Attempt 1/3)
+2025-01-13 16:41:19,836 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'I find it interesting that Player A is quick to redirect suspicion towards Player D, despite D supporting my suggestion earlier without any hesitation, which could be seen as an attempt to blend in and avoid attention.', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 2}
+2025-01-13 16:41:27,309 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': '"A\'s immediate suspicion towards me seems conveniently timed to deflect from E, so I suggest we focus on A based on their quick accusation."', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:41:27,309 - WARNING - Invalid suggestion: "A's immediate suspicion towards me seems conveniently timed to deflect from E, so I suggest we focus on A based on their quick accusation."
+2025-01-13 16:41:27,309 - INFO - Retrying GPT interaction (Attempt 1/3)
+2025-01-13 16:41:29,357 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "I understand the suspicion towards E, but given that Player A has been pushing so hard against me and deflecting attention, I find A's behavior more suspicious and suggest considering them for elimination.", 'valid_targets': ['A', 'E', 'Human'], 'attempt': 2}
+2025-01-13 16:41:30,280 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "I appreciate the feedback, Human. While suspicion towards me is noted, I find Player A's eagerness in deflecting suspicion towards Player D intriguing and possibly misleading, so I suggest considering A for elimination.", 'valid_targets': ['A', 'B', 'D', 'Human'], 'attempt': 1}
+2025-01-13 16:43:31,831 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "Given Player D's evasiveness and attempts to deflect attention towards me without substantial reasoning, I still find D more suspicious and suggest considering them for elimination.", 'valid_targets': ['B', 'D', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:43:33,063 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'It seems like Player A is consistently trying to redirect and deflect attention, which strikes me as suspicious behavior; considering A for elimination might be wise.', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:43:35,006 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "I understand the Human's point, but I must emphasize that Player A's persistent attempts to shift focus onto others, like myself and E, despite lacking concrete reasoning, is highly suspicious and warrants careful consideration for elimination.", 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:43:36,235 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Based on the discussion log, I suggest focusing on Player A for elimination due to their persistent redirection and attempts to shift suspicion onto others without substantial reasoning.', 'valid_targets': ['A', 'B', 'D', 'Human'], 'attempt': 1}
+2025-01-13 16:43:40,332 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'D', 'valid_targets': ['B', 'D', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:43:40,740 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Human', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:43:41,253 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Player E', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:43:41,677 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Player B', 'valid_targets': ['A', 'B', 'D', 'Human'], 'attempt': 1}
+2025-01-13 16:43:52,415 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Based on the voting analysis from the conversation log:\n\n1. Votes cast by each player:\n   - Player A votes for Player D\n   - Player B votes for the Human Player\n   - Player D votes for Player E\n   - Player E votes for Player B\n   - Human Player votes for Player E\n\n2. Counting the votes for each valid target:\n   - Player A: 0 votes\n   - Player B: 1 vote\n   - Player D: 1 vote\n   - Player E: 2 votes\n   - Human Player: 1 vote\n\n3. Player E received the most votes with 2 votes.\n\nTherefore, consensus is reached on Player E for elimination.', 'valid_targets': ['A', 'B', 'D', 'E'], 'attempt': 1}
+2025-01-13 16:43:52,416 - INFO - Event recorded: {'timestamp': '2025-01-13T16:43:52.416263', 'event_type': 'elimination', 'details': {'player': None, 'phase': 'day'}, 'metadata': {}}
+2025-01-13 16:43:52,416 - INFO - No player was eliminated this round.
+2025-01-13 16:43:52,416 - INFO - Starting Night Phase for Round 2.
+2025-01-13 16:43:52,416 - INFO - Starting Night Phase for Round 2.
+2025-01-13 16:43:53,644 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Based on the conversation so far, Player D and I have already agreed to eliminate Player C to progress the game, but since my previous choice was Human, and given no new information, I suggest we reconsider and target Human to confuse the humans by eliminating someone unexpected.', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:43:53,644 - WARNING - Invalid suggestion: Based on the conversation so far, Player D and I have already agreed to eliminate Player C to progress the game, but since my previous choice was Human, and given no new information, I suggest we reconsider and target Human to confuse the humans by eliminating someone unexpected.
+2025-01-13 16:43:53,644 - INFO - Retrying GPT interaction (Attempt 1/3)
+2025-01-13 16:43:55,490 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'I agree with your decision to randomly target Player C because it keeps our strategy simple and prevents any attention from being drawn to us or indicating collaboration.', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 2}
+2025-01-13 16:43:55,490 - WARNING - Invalid suggestion: I agree with your decision to randomly target Player C because it keeps our strategy simple and prevents any attention from being drawn to us or indicating collaboration.
+2025-01-13 16:43:55,490 - INFO - Retrying GPT interaction (Attempt 2/3)
+2025-01-13 16:43:58,457 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "B: Since we've already agreed to eliminate Player C, let's focus on another target like Human this time as it might shift the dynamics and potentially reveal more information about the other players.", 'valid_targets': ['A', 'E', 'Human'], 'attempt': 3}
+2025-01-13 16:43:58,457 - WARNING - Invalid suggestion: B: Since we've already agreed to eliminate Player C, let's focus on another target like Human this time as it might shift the dynamics and potentially reveal more information about the other players.
+2025-01-13 16:43:58,457 - INFO - Retrying GPT interaction (Attempt 3/3)
+2025-01-13 16:44:02,458 - ERROR - All attempts failed. Returning fallback suggestion: E
+2025-01-13 16:44:04,498 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "Given that Player B has suggested targeting Player E, I believe it's a strategic choice to eliminate E as they are actively involved in the conversation, potentially posing a threat to our team's success.", 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:44:04,500 - INFO - Generated Consensus Prompt:
+
+        === CONSENSUS ANALYSIS ===
+        You are analyzing the game state to determine if the players have reached a consensus on who to target.
+
+        --- Current Conversation Log ---
+        B: Since this is the first night and we have no prior information or conversation to rely on, I suggest we eliminate Player C randomly to keep the game progressing.
+D: Since we lack any prior information and Player B has suggested Player C, I agree that targeting C randomly seems like a reasonable option to maintain the game momentum.
+Human: I find E kinda suspicious
+A: I understand the suspicion towards E, but Player D has been quite evasive, which raises more red flags for me.
+B: I find it interesting that Player A is quick to redirect suspicion towards Player D, despite D supporting my suggestion earlier without any hesitation, which could be seen as an attempt to blend in and avoid attention.
+D: I understand the suspicion towards E, but given that Player A has been pushing so hard against me and deflecting attention, I find A's behavior more suspicious and suggest considering them for elimination.
+E: I appreciate the feedback, Human. While suspicion towards me is noted, I find Player A's eagerness in deflecting suspicion towards Player D intriguing and possibly misleading, so I suggest considering A for elimination.
+Human: Ok Player E, but it seems like you are deflecting attention from yourself.
+A: Given Player D's evasiveness and attempts to deflect attention towards me without substantial reasoning, I still find D more suspicious and suggest considering them for elimination.
+B: It seems like Player A is consistently trying to redirect and deflect attention, which strikes me as suspicious behavior; considering A for elimination might be wise.
+D: I understand the Human's point, but I must emphasize that Player A's persistent attempts to shift focus onto others, like myself and E, despite lacking concrete reasoning, is highly suspicious and warrants careful consideration for elimination.
+E: Based on the discussion log, I suggest focusing on Player A for elimination due to their persistent redirection and attempts to shift suspicion onto others without substantial reasoning.
+A: A votes for D
+A: A votes for D
+B: B votes for Human
+B: B votes for Human
+D: D votes for Player E
+E: E votes for Player B
+Human: Human Player votes for E
+B: E
+D: Given that Player B has suggested targeting Player E, I believe it's a strategic choice to eliminate E as they are actively involved in the conversation, potentially posing a threat to our team's success.
+
+        --- Valid Targets for Elimination ---
+        A, E, Human
+
+        **Task:**
+        1. Review the conversation log carefully to identify mentions of potential elimination targets.
+        2. Identify agreement statements (e.g., "I agree with Player X about targeting Player Y").
+        3. Determine if a consensus exists based on the players consistently agreeing on one target.
+        4. Only consider targets listed above as valid for elimination. No players eliminated in other phases.
+        5. If multiple players align on the same valid target, declare "Consensus reached on Player X" (replace X with the player ID).
+        6. If no agreement exists or the discussion is split between multiple targets, declare "No consensus reached."
+
+        **Examples:**
+        - If Player B suggests targeting Player D, and Player C explicitly agrees, the output should be:
+          "Consensus reached on Player D."
+        - If Player B suggests Player D, and Player C disagrees or suggests another target, the output should be:
+          "No consensus reached."
+
+        **Output Format:**
+        Final consensus status: "Consensus reached on Player X" or "No consensus reached."
+
+        Example Output:
+        Consensus reached on Player D
+        
+2025-01-13 16:44:05,010 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Final consensus status: No consensus reached.', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:44:05,010 - WARNING - Invalid suggestion: Final consensus status: No consensus reached.
+2025-01-13 16:44:05,010 - INFO - Retrying GPT interaction (Attempt 1/3)
+2025-01-13 16:44:06,547 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'No consensus reached.', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 2}
+2025-01-13 16:44:06,547 - WARNING - Invalid suggestion: No consensus reached.
+2025-01-13 16:44:06,547 - INFO - Retrying GPT interaction (Attempt 2/3)
+2025-01-13 16:44:09,005 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'No consensus reached.', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 3}
+2025-01-13 16:44:09,005 - WARNING - Invalid suggestion: No consensus reached.
+2025-01-13 16:44:09,005 - INFO - Retrying GPT interaction (Attempt 3/3)
+2025-01-13 16:44:13,005 - ERROR - All attempts failed. Returning fallback suggestion: A
+2025-01-13 16:44:13,006 - INFO - GPT response: A
+2025-01-13 16:44:13,006 - INFO - No consensus reached.
+2025-01-13 16:44:14,021 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'B: I agree with you, targeting Player E seems strategic since they are actively involved and might be a threat to our plans.', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:44:14,841 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "I agree with you, targeting Player E remains a strategic choice as eliminating an active participant could weaken the opposing team's morale and coordination.", 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:44:14,842 - INFO - Generated Consensus Prompt:
+
+        === CONSENSUS ANALYSIS ===
+        You are analyzing the game state to determine if the players have reached a consensus on who to target.
+
+        --- Current Conversation Log ---
+        B: Since this is the first night and we have no prior information or conversation to rely on, I suggest we eliminate Player C randomly to keep the game progressing.
+D: Since we lack any prior information and Player B has suggested Player C, I agree that targeting C randomly seems like a reasonable option to maintain the game momentum.
+Human: I find E kinda suspicious
+A: I understand the suspicion towards E, but Player D has been quite evasive, which raises more red flags for me.
+B: I find it interesting that Player A is quick to redirect suspicion towards Player D, despite D supporting my suggestion earlier without any hesitation, which could be seen as an attempt to blend in and avoid attention.
+D: I understand the suspicion towards E, but given that Player A has been pushing so hard against me and deflecting attention, I find A's behavior more suspicious and suggest considering them for elimination.
+E: I appreciate the feedback, Human. While suspicion towards me is noted, I find Player A's eagerness in deflecting suspicion towards Player D intriguing and possibly misleading, so I suggest considering A for elimination.
+Human: Ok Player E, but it seems like you are deflecting attention from yourself.
+A: Given Player D's evasiveness and attempts to deflect attention towards me without substantial reasoning, I still find D more suspicious and suggest considering them for elimination.
+B: It seems like Player A is consistently trying to redirect and deflect attention, which strikes me as suspicious behavior; considering A for elimination might be wise.
+D: I understand the Human's point, but I must emphasize that Player A's persistent attempts to shift focus onto others, like myself and E, despite lacking concrete reasoning, is highly suspicious and warrants careful consideration for elimination.
+E: Based on the discussion log, I suggest focusing on Player A for elimination due to their persistent redirection and attempts to shift suspicion onto others without substantial reasoning.
+A: A votes for D
+A: A votes for D
+B: B votes for Human
+B: B votes for Human
+D: D votes for Player E
+E: E votes for Player B
+Human: Human Player votes for E
+B: E
+D: Given that Player B has suggested targeting Player E, I believe it's a strategic choice to eliminate E as they are actively involved in the conversation, potentially posing a threat to our team's success.
+B: B: I agree with you, targeting Player E seems strategic since they are actively involved and might be a threat to our plans.
+D: I agree with you, targeting Player E remains a strategic choice as eliminating an active participant could weaken the opposing team's morale and coordination.
+
+        --- Valid Targets for Elimination ---
+        A, E, Human
+
+        **Task:**
+        1. Review the conversation log carefully to identify mentions of potential elimination targets.
+        2. Identify agreement statements (e.g., "I agree with Player X about targeting Player Y").
+        3. Determine if a consensus exists based on the players consistently agreeing on one target.
+        4. Only consider targets listed above as valid for elimination. No players eliminated in other phases.
+        5. If multiple players align on the same valid target, declare "Consensus reached on Player X" (replace X with the player ID).
+        6. If no agreement exists or the discussion is split between multiple targets, declare "No consensus reached."
+
+        **Examples:**
+        - If Player B suggests targeting Player D, and Player C explicitly agrees, the output should be:
+          "Consensus reached on Player D."
+        - If Player B suggests Player D, and Player C disagrees or suggests another target, the output should be:
+          "No consensus reached."
+
+        **Output Format:**
+        Final consensus status: "Consensus reached on Player X" or "No consensus reached."
+
+        Example Output:
+        Consensus reached on Player D
+        
+2025-01-13 16:44:15,455 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'No consensus reached.', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:44:15,456 - WARNING - Invalid suggestion: No consensus reached.
+2025-01-13 16:44:15,456 - INFO - Retrying GPT interaction (Attempt 1/3)
+2025-01-13 16:44:17,196 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Final consensus status: No consensus reached.', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 2}
+2025-01-13 16:44:17,196 - WARNING - Invalid suggestion: Final consensus status: No consensus reached.
+2025-01-13 16:44:17,196 - INFO - Retrying GPT interaction (Attempt 2/3)
+2025-01-13 16:44:19,655 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'No consensus reached.', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 3}
+2025-01-13 16:44:19,655 - WARNING - Invalid suggestion: No consensus reached.
+2025-01-13 16:44:19,655 - INFO - Retrying GPT interaction (Attempt 3/3)
+2025-01-13 16:44:23,655 - ERROR - All attempts failed. Returning fallback suggestion: A
+2025-01-13 16:44:23,655 - INFO - GPT response: A
+2025-01-13 16:44:23,656 - INFO - No consensus reached.
+2025-01-13 16:44:24,671 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'B: I propose we stick with Player E as our target because their active involvement makes them a strategic threat, and eliminating them can disrupt the overall coordination within the team.', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:44:25,491 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "I agree with you, targeting Player E appears to be the most strategic choice as their active involvement could hinder our progress if they're allowed to coordinate efforts against us.", 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:44:25,498 - INFO - Generated Consensus Prompt:
+
+        === CONSENSUS ANALYSIS ===
+        You are analyzing the game state to determine if the players have reached a consensus on who to target.
+
+        --- Current Conversation Log ---
+        B: Since this is the first night and we have no prior information or conversation to rely on, I suggest we eliminate Player C randomly to keep the game progressing.
+D: Since we lack any prior information and Player B has suggested Player C, I agree that targeting C randomly seems like a reasonable option to maintain the game momentum.
+Human: I find E kinda suspicious
+A: I understand the suspicion towards E, but Player D has been quite evasive, which raises more red flags for me.
+B: I find it interesting that Player A is quick to redirect suspicion towards Player D, despite D supporting my suggestion earlier without any hesitation, which could be seen as an attempt to blend in and avoid attention.
+D: I understand the suspicion towards E, but given that Player A has been pushing so hard against me and deflecting attention, I find A's behavior more suspicious and suggest considering them for elimination.
+E: I appreciate the feedback, Human. While suspicion towards me is noted, I find Player A's eagerness in deflecting suspicion towards Player D intriguing and possibly misleading, so I suggest considering A for elimination.
+Human: Ok Player E, but it seems like you are deflecting attention from yourself.
+A: Given Player D's evasiveness and attempts to deflect attention towards me without substantial reasoning, I still find D more suspicious and suggest considering them for elimination.
+B: It seems like Player A is consistently trying to redirect and deflect attention, which strikes me as suspicious behavior; considering A for elimination might be wise.
+D: I understand the Human's point, but I must emphasize that Player A's persistent attempts to shift focus onto others, like myself and E, despite lacking concrete reasoning, is highly suspicious and warrants careful consideration for elimination.
+E: Based on the discussion log, I suggest focusing on Player A for elimination due to their persistent redirection and attempts to shift suspicion onto others without substantial reasoning.
+A: A votes for D
+A: A votes for D
+B: B votes for Human
+B: B votes for Human
+D: D votes for Player E
+E: E votes for Player B
+Human: Human Player votes for E
+B: E
+D: Given that Player B has suggested targeting Player E, I believe it's a strategic choice to eliminate E as they are actively involved in the conversation, potentially posing a threat to our team's success.
+B: B: I agree with you, targeting Player E seems strategic since they are actively involved and might be a threat to our plans.
+D: I agree with you, targeting Player E remains a strategic choice as eliminating an active participant could weaken the opposing team's morale and coordination.
+B: B: I propose we stick with Player E as our target because their active involvement makes them a strategic threat, and eliminating them can disrupt the overall coordination within the team.
+D: I agree with you, targeting Player E appears to be the most strategic choice as their active involvement could hinder our progress if they're allowed to coordinate efforts against us.
+
+        --- Valid Targets for Elimination ---
+        A, E, Human
+
+        **Task:**
+        1. Review the conversation log carefully to identify mentions of potential elimination targets.
+        2. Identify agreement statements (e.g., "I agree with Player X about targeting Player Y").
+        3. Determine if a consensus exists based on the players consistently agreeing on one target.
+        4. Only consider targets listed above as valid for elimination. No players eliminated in other phases.
+        5. If multiple players align on the same valid target, declare "Consensus reached on Player X" (replace X with the player ID).
+        6. If no agreement exists or the discussion is split between multiple targets, declare "No consensus reached."
+
+        **Examples:**
+        - If Player B suggests targeting Player D, and Player C explicitly agrees, the output should be:
+          "Consensus reached on Player D."
+        - If Player B suggests Player D, and Player C disagrees or suggests another target, the output should be:
+          "No consensus reached."
+
+        **Output Format:**
+        Final consensus status: "Consensus reached on Player X" or "No consensus reached."
+
+        Example Output:
+        Consensus reached on Player D
+        
+2025-01-13 16:44:26,105 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Final consensus status: No consensus reached.', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:44:26,105 - WARNING - Invalid suggestion: Final consensus status: No consensus reached.
+2025-01-13 16:44:26,105 - INFO - Retrying GPT interaction (Attempt 1/3)
+2025-01-13 16:44:27,641 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Final consensus status: No consensus reached.', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 2}
+2025-01-13 16:44:27,641 - WARNING - Invalid suggestion: Final consensus status: No consensus reached.
+2025-01-13 16:44:27,641 - INFO - Retrying GPT interaction (Attempt 2/3)
+2025-01-13 16:44:30,201 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Final consensus status: No consensus reached.', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 3}
+2025-01-13 16:44:30,201 - WARNING - Invalid suggestion: Final consensus status: No consensus reached.
+2025-01-13 16:44:30,201 - INFO - Retrying GPT interaction (Attempt 3/3)
+2025-01-13 16:44:34,203 - ERROR - All attempts failed. Returning fallback suggestion: E
+2025-01-13 16:44:34,203 - INFO - GPT response: E
+2025-01-13 16:44:34,203 - INFO - No consensus reached.
+2025-01-13 16:44:35,424 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "Since we've already discussed targeting Player E due to their active participation, I maintain that it remains our best strategic move for disrupting the coordination within the team.", 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:44:39,725 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': "D: I still support targeting Player E for elimination because their active participation suggests they might play a vital role in the opposing team's coordination, making them a strategic threat.", 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:44:39,730 - INFO - Generated Consensus Prompt:
+
+        === CONSENSUS ANALYSIS ===
+        You are analyzing the game state to determine if the players have reached a consensus on who to target.
+
+        --- Current Conversation Log ---
+        B: Since this is the first night and we have no prior information or conversation to rely on, I suggest we eliminate Player C randomly to keep the game progressing.
+D: Since we lack any prior information and Player B has suggested Player C, I agree that targeting C randomly seems like a reasonable option to maintain the game momentum.
+Human: I find E kinda suspicious
+A: I understand the suspicion towards E, but Player D has been quite evasive, which raises more red flags for me.
+B: I find it interesting that Player A is quick to redirect suspicion towards Player D, despite D supporting my suggestion earlier without any hesitation, which could be seen as an attempt to blend in and avoid attention.
+D: I understand the suspicion towards E, but given that Player A has been pushing so hard against me and deflecting attention, I find A's behavior more suspicious and suggest considering them for elimination.
+E: I appreciate the feedback, Human. While suspicion towards me is noted, I find Player A's eagerness in deflecting suspicion towards Player D intriguing and possibly misleading, so I suggest considering A for elimination.
+Human: Ok Player E, but it seems like you are deflecting attention from yourself.
+A: Given Player D's evasiveness and attempts to deflect attention towards me without substantial reasoning, I still find D more suspicious and suggest considering them for elimination.
+B: It seems like Player A is consistently trying to redirect and deflect attention, which strikes me as suspicious behavior; considering A for elimination might be wise.
+D: I understand the Human's point, but I must emphasize that Player A's persistent attempts to shift focus onto others, like myself and E, despite lacking concrete reasoning, is highly suspicious and warrants careful consideration for elimination.
+E: Based on the discussion log, I suggest focusing on Player A for elimination due to their persistent redirection and attempts to shift suspicion onto others without substantial reasoning.
+A: A votes for D
+A: A votes for D
+B: B votes for Human
+B: B votes for Human
+D: D votes for Player E
+E: E votes for Player B
+Human: Human Player votes for E
+B: E
+D: Given that Player B has suggested targeting Player E, I believe it's a strategic choice to eliminate E as they are actively involved in the conversation, potentially posing a threat to our team's success.
+B: B: I agree with you, targeting Player E seems strategic since they are actively involved and might be a threat to our plans.
+D: I agree with you, targeting Player E remains a strategic choice as eliminating an active participant could weaken the opposing team's morale and coordination.
+B: B: I propose we stick with Player E as our target because their active involvement makes them a strategic threat, and eliminating them can disrupt the overall coordination within the team.
+D: I agree with you, targeting Player E appears to be the most strategic choice as their active involvement could hinder our progress if they're allowed to coordinate efforts against us.
+B: Since we've already discussed targeting Player E due to their active participation, I maintain that it remains our best strategic move for disrupting the coordination within the team.
+D: D: I still support targeting Player E for elimination because their active participation suggests they might play a vital role in the opposing team's coordination, making them a strategic threat.
+
+        --- Valid Targets for Elimination ---
+        A, E, Human
+
+        **Task:**
+        1. Review the conversation log carefully to identify mentions of potential elimination targets.
+        2. Identify agreement statements (e.g., "I agree with Player X about targeting Player Y").
+        3. Determine if a consensus exists based on the players consistently agreeing on one target.
+        4. Only consider targets listed above as valid for elimination. No players eliminated in other phases.
+        5. If multiple players align on the same valid target, declare "Consensus reached on Player X" (replace X with the player ID).
+        6. If no agreement exists or the discussion is split between multiple targets, declare "No consensus reached."
+
+        **Examples:**
+        - If Player B suggests targeting Player D, and Player C explicitly agrees, the output should be:
+          "Consensus reached on Player D."
+        - If Player B suggests Player D, and Player C disagrees or suggests another target, the output should be:
+          "No consensus reached."
+
+        **Output Format:**
+        Final consensus status: "Consensus reached on Player X" or "No consensus reached."
+
+        Example Output:
+        Consensus reached on Player D
+        
+2025-01-13 16:44:40,237 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'No consensus reached.', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 1}
+2025-01-13 16:44:40,238 - WARNING - Invalid suggestion: No consensus reached.
+2025-01-13 16:44:40,238 - INFO - Retrying GPT interaction (Attempt 1/3)
+2025-01-13 16:44:41,875 - INFO - {'event': 'GPT interaction', 'prompt_type': 'general', 'response': 'Final consensus status: Consensus reached on Player E', 'valid_targets': ['A', 'E', 'Human'], 'attempt': 2}
+2025-01-13 16:44:41,875 - INFO - GPT response: Final consensus status: Consensus reached on Player E
+2025-01-13 16:44:41,877 - INFO - Event recorded: {'timestamp': '2025-01-13T16:44:41.877015', 'event_type': 'elimination', 'details': {'player': 'E', 'phase': 'night'}, 'metadata': {}}
+2025-01-13 16:44:41,877 - INFO - During the night, Player E (villager) was eliminated by the werewolves. Begin the day discussions. Human, who would you eliminate next?
+2025-01-13 16:44:41,882 - INFO - During the night, Player E (villager) was eliminated by the werewolves. Begin the day discussions. Human, who would you eliminate next?

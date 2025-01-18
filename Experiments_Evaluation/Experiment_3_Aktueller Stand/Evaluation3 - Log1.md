@@ -1,15 +1,18 @@
+Aktuelle Gameverlauf kann in Log1 gefolgt werden (oder game_log.txt)
+# Herausforderungen
+- dass Agents nur Zugriff auf ihre eigenen Conversation Logs haben 
+- Verbindung Frontend mit Backend (und Datenbank) in Bezug auf dynamische Antworten der API
 
-# Werwolf-Backendbeschreibung
+# Verbesserungswünsche:
+- dass Diskussion und Voting besser aufeinander abgestimmt sind
+- Day-Phase soll nach vorherigem Consensus korrekt angewandt werden
+- Conversation dynamischer (Agents sprechen wann sie wollen und nicht nicht nach Aufruf)
+- Night-Phase 2..n verbessern (Consensus wird schwer gefunden)
+- Human Player soll korrekt eliminiert werden
 
-
-
-# Werwolf-Frontendbeschreibung
-
-
-
-# Werwolf-Datenbankbeschreibung
-
-Die Datenbank dient der Verwaltung eines Werwolf-Spiels und speichert Informationen über Spiele, Phasen, Spieler und deren Interaktionen. Die Entitäten und deren Attribute sind wie folgt:
+# Werwolf-Datenbankbeschreibung (momentan kein Vektordatenbank)
+Die Datenbank dient der Verwaltung eines Werwolf-Spiels und speichert Informationen über Spiele, Phasen, 
+Spieler und deren Interaktionen. Die Entitäten und deren Attribute sind wie folgt:
 ---
 
 ## Game (Spiel)
